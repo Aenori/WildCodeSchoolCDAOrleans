@@ -2,7 +2,7 @@ package org.wcscda.worms.board.weapons;
 
 import java.awt.Graphics2D;
 import java.awt.image.ImageObserver;
-import org.wcscda.worms.board.Worm;
+import org.wcscda.worms.Worm;
 
 public abstract class AbstractWeapon {
   private double angle;
@@ -21,5 +21,9 @@ public abstract class AbstractWeapon {
 
   public void setAngle(double angle) {
     this.angle = angle;
+  }
+
+  public void incrementAngle(double incrAngle) {
+    this.angle += incrAngle;
   }
 }
