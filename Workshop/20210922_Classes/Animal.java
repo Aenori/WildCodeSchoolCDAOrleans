@@ -3,6 +3,8 @@ package worshopClasses;
 public abstract class Animal {
 	
 	private String nom;
+	// NRO 2021-09-27 : non surtout pas, les noms des attributs commencent par
+	//  des miniscules
 	private int NbPattes;
 	
 	
@@ -34,8 +36,12 @@ public abstract class Animal {
 	public String toString() {
 		return "Animal [nom=" + nom + "]";
 	}
+
+	// Attention à l'indentation
 	 public abstract String crier();
 	public abstract String bouger();
+
+	// Lever une NotImplementedException dans ce cas
 	 abstract void pondre();
 	
 

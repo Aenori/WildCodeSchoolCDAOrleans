@@ -1,0 +1,4 @@
+NRO 2021-09-27 : la syntax de l'héritage est bien compris, attention à l'indentation et
+ les conventions de nommage (pas d'attributes qui commencent par une majuscule)
+Après l'objectif de minimiser le nombre de méthode invite à définir une classe
+"animal avec patte".
