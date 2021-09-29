@@ -34,8 +34,7 @@ public class TimeController implements ActionListener {
 
   private void initGame() {
     board = new PhysicalController();
-    // Lucky luke because for the moment he is a poor lonesome
-    // player
+    //Création des equipes et des worms qui leur appartient
 
     Map<String, String[]> playerAndWorms = new HashMap<>();
     Scanner scan1 = new Scanner(System.in);
