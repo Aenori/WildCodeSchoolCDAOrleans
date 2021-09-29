@@ -24,6 +24,7 @@ public class TimeController implements ActionListener {
   private int phaseCount = 0;
 
   public TimeController() {
+    instance = this;
     initGame();
 
     board.addKeyListener(new KeyboardController());
@@ -76,8 +77,10 @@ public class TimeController implements ActionListener {
   public void setNextWorm() {
     activePlayerIndex += 1;
     activePlayerIndex %= players.size();
+    getActivePlayer().setNextWorm();
+    getActivePlayer().initWeapon();
 
-    AbstractPhase phase = new WormMovingPhase(getActivePlayer().getNextWorm());
+    AbstractPhase phase = new WormMovingPhase();
     this.setCurrentPhase(phase);
   }
 
