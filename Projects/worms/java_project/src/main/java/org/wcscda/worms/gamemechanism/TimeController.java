@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 
 import javax.swing.Timer;
 import org.wcscda.worms.Config;
+import org.wcscda.worms.Helper;
 import org.wcscda.worms.Player;
 import org.wcscda.worms.Worm;
 import org.wcscda.worms.gamemechanism.phases.AbstractPhase;
@@ -70,7 +71,6 @@ public class TimeController implements ActionListener {
             board.wormInitialPlacement(worm);
         }
     }
-
     setNextWorm();
   }
 
