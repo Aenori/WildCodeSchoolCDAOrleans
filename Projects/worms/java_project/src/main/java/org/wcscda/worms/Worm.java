@@ -105,6 +105,7 @@ public class Worm extends ARBEWithGravity {
 
   public void die() {
     player.getWorms().remove(this);
+//    Helper.getTC().getPlayers().remove(player);
     removeSelf();
   }
 }
