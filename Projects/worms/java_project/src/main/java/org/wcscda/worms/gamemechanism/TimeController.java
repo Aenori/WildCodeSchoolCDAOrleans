@@ -36,10 +36,6 @@ public class TimeController implements ActionListener {
     board = new PhysicalController();
     // Lucky luke because for the moment he is a poor lonesome
     // player
-    Color colorTeam1 = Color.red;
-    Color colorTeam2 = Color.yellow;
-    Color colorTeam3 = Color.green;
-    Color colorTeam4 = Color.blue;
 
     Map<String, String[]> playerAndWorms = new HashMap<>();
     Scanner scan1 = new Scanner(System.in);
