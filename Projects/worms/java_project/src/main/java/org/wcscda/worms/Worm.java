@@ -1,5 +1,6 @@
 package org.wcscda.worms;
 
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.Point2D;
@@ -63,6 +64,24 @@ public class Worm extends ARBEWithGravity {
 		g.setColor(player.getColor());
 		g.drawString(""+name, (int) getX(), (int) getY() - 30);
 		g.drawString(""+life, (int) getX(), (int) getY() - 15);
+		setWinner(g);
+	}
+	
+	public void setWinner(Graphics2D g) {
+		int nbAlive = 0;
+		for (int i = 0; i < Helper.getTC().getPlayers().size(); i++) {
+			if (Helper.getTC().getPlayers().get(i).isAlive()) {
+				nbAlive += 1;
+			}
+		}
+		for (int i = 0; i < Helper.getTC().getPlayers().size(); i++) {
+
+			if (nbAlive == 1 && Helper.getTC().getPlayers().get(i).isAlive()) {
+				System.out.println("Le winner est : " + Helper.getTC().getPlayers().get(i).getName());
+				g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+				g.drawString("Le winner est : " + Helper.getTC().getPlayers().get(i).getName(), 300, 250);
+			}
+		}
 	}
 
 	private boolean isRightFacing() {
@@ -104,12 +123,12 @@ public class Worm extends ARBEWithGravity {
 	}
 
 	public void die() {
-		
+
 		player.getWorms().remove(this);
 		if(player.getWorms().isEmpty()) {
-		player.setAlive(false);
+			player.setAlive(false);
 		}
 		removeSelf();
-		
+
 	}
 }

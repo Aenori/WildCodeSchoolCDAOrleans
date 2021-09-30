@@ -76,26 +76,10 @@ public class TimeController implements ActionListener {
     setNextWorm();
   }
 
-  public void setLooserAndWinner() {
 
-	    int nbAlive = 0;
-		for (int i = 0; i < Helper.getTC().getPlayers().size(); i++) {
-			if (Helper.getTC().getPlayers().get(i).isAlive()) {
-				nbAlive += 1;
-			}
-		}
-		System.out.println("il reste : "+nbAlive +" joueur en vie");
-		for (int i = 0; i < Helper.getTC().getPlayers().size(); i++) {
-
-			if (nbAlive == 1 && Helper.getTC().getPlayers().get(i).isAlive()) {
-				System.out.println("Le winner est : " + Helper.getTC().getPlayers().get(i).getName());
-			}
-		}
-  }
   
   public void setNextWorm() {
 
-	setLooserAndWinner();
     activePlayerIndex += 1;
     activePlayerIndex %= players.size();
     
