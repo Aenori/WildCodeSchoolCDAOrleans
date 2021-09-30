@@ -2,6 +2,7 @@ package org.wcscda.worms.gamemechanism;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
@@ -77,15 +78,17 @@ public class TimeController implements ActionListener {
 
   public void setLooserAndWinner() {
 
-	    int nbLooser = 0;
+	    int nbAlive = 0;
+		for (int i = 0; i < Helper.getTC().getPlayers().size(); i++) {
+			if (Helper.getTC().getPlayers().get(i).isAlive()) {
+				nbAlive += 1;
+			}
+		}
+		System.out.print("il reste : "+nbAlive +" joueur en vie");
 		for (int i = 0; i < Helper.getTC().getPlayers().size(); i++) {
 
-			if ((Helper.getActivePlayer().getWorms().size() > 0) && (Helper.getTC().getPlayers().get(i).getWorms().size() < 1)) {
-				System.out.println(" l'équipe " + Helper.getTC().getPlayers().get(i).getName() + " à perdu");
-				nbLooser++;
-				if (nbLooser == players.size()-1) {
-					System.out.println(" l'équipe " + Helper.getActivePlayer().getName() + " à gagné");
-				}
+			if (nbAlive == 1 && Helper.getTC().getPlayers().get(i).isAlive()) {
+				System.out.print("Le winner est : " + Helper.getTC().getPlayers().get(i).getName());
 			}
 		}
   }
