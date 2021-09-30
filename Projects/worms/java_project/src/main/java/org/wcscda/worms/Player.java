@@ -12,6 +12,7 @@ public class Player {
   private final ArrayList<Worm> worms = new ArrayList<Worm>();
   private AbstractWeapon currentWeapon;
   private int currentWormIndex = 0;
+  private boolean isAlive = true;
 
   public Player(String name, Color color) {
     this.name = name;
@@ -65,4 +66,13 @@ public class Player {
   public void initWeapon() {
     currentWeapon = new Hadoken();
   }
+
+public boolean isAlive() {
+	return isAlive;
+}
+
+public void setAlive(boolean isAlive) {
+	this.isAlive = isAlive;
+}
+  
 }
