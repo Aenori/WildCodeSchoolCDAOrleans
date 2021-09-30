@@ -83,11 +83,6 @@ public class Worm extends ARBEWithGravity {
 				g.setFont(new Font("TimesRoman", Font.PLAIN, 300));
 				g.drawString("Le winner est : " + Helper.getTC().getPlayers().get(i).getName(), 300, 250);
 				g.setFont(base);
-			}else if(nbAlive == 0 && Helper.getTC().getPlayers().get(i).isAlive()){
-				Font base = g.getFont();
-				g.setFont(new Font("TimesRoman", Font.PLAIN, 300));
-				g.drawString("DRAW", 400, 350);
-				g.setFont(base);
 			}
 		}
 	}
