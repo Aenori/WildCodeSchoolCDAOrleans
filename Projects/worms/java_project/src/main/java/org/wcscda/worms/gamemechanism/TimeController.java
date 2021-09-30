@@ -71,14 +71,35 @@ public class TimeController implements ActionListener {
             board.wormInitialPlacement(worm);
         }
     }
+
     setNextWorm();
   }
 
+  public void setLooserAndWinner() {
+
+	    int nbLooser = 0;
+		for (int i = 0; i < Helper.getTC().getPlayers().size(); i++) {
+
+			if ((Helper.getActivePlayer().getWorms().size() > 0) && (Helper.getTC().getPlayers().get(i).getWorms().size() < 1)) {
+				System.out.println(" l'équipe " + Helper.getTC().getPlayers().get(i).getName() + " à perdu");
+				nbLooser++;
+				if (nbLooser == players.size()-1) {
+					System.out.println(" l'équipe " + Helper.getActivePlayer().getName() + " à gagné");
+				}
+			}
+		}
+  }
+  
   public void setNextWorm() {
+
+	setLooserAndWinner();
     activePlayerIndex += 1;
     activePlayerIndex %= players.size();
+    
+    
     getActivePlayer().setNextWorm();
     getActivePlayer().initWeapon();
+    
 
     AbstractPhase phase = new WormMovingPhase();
     this.setCurrentPhase(phase);

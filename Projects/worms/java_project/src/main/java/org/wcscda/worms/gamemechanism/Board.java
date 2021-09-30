@@ -3,6 +3,8 @@ package org.wcscda.worms.gamemechanism;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
+import org.wcscda.worms.Helper;
 import org.wcscda.worms.board.*;
 
 public abstract class Board extends JPanel {
@@ -36,6 +38,7 @@ public abstract class Board extends JPanel {
   }
 
   private void doDrawing(Graphics2D g) {
+
     for (AbstractDrawableElement drawable : AbstractDrawableElement.getAllDrawable()) {
       drawable.draw(g, this);
     }

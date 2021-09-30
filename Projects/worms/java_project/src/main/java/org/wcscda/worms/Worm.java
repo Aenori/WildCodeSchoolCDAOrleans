@@ -10,102 +10,103 @@ import org.wcscda.worms.board.AbstractBoardElement;
 import org.wcscda.worms.gamemechanism.Board;
 
 public class Worm extends ARBEWithGravity {
-  private static final String leftFacingResource = "src/resources/WormLF.png";
-  private static final String rightFacingResource = "src/resources/WormRF.png";
+	private static final String leftFacingResource = "src/resources/WormLF.png";
+	private static final String rightFacingResource = "src/resources/WormRF.png";
 
-  private static final int imageHeight = 60;
-  private static final int imageWidth = 54;
-  private static final int rectPadding = 15;
+	private static final int imageHeight = 60;
+	private static final int imageWidth = 54;
+	private static final int rectPadding = 15;
 
-  private static Image wormLF = null;
-  private static Image wormRF = null;
-  private int life = 100;
-  private final String name;
-  private final Player player;
-  private boolean isUserMoving;
+	private static Image wormLF = null;
+	private static Image wormRF = null;
+	private int life = 10;
+	private final String name;
+	private final Player player;
+	private boolean isUserMoving;
 
-  private static void initImages() {
-    wormLF =
-        new ImageIcon(leftFacingResource).getImage().getScaledInstance(imageWidth, imageHeight, 0);
-    wormRF =
-        new ImageIcon(rightFacingResource).getImage().getScaledInstance(imageWidth, imageHeight, 0);
-  }
+	private static void initImages() {
+		wormLF =
+				new ImageIcon(leftFacingResource).getImage().getScaledInstance(imageWidth, imageHeight, 0);
+		wormRF =
+				new ImageIcon(rightFacingResource).getImage().getScaledInstance(imageWidth, imageHeight, 0);
+	}
 
-  // NRO 2021-09-28 : Player is the Worm factory
-  protected Worm(Player player, String name) {
-    this(player, name, getRandomStartingX(), getRandomStartingY());
-  }
+	// NRO 2021-09-28 : Player is the Worm factory
+	protected Worm(Player player, String name) {
+		this(player, name, getRandomStartingX(), getRandomStartingY());
+	}
 
-  // Idem
-  protected Worm(Player player, String name, int x, int y) {
-    super(x, y, imageWidth - 2 * rectPadding, imageHeight - 2 * rectPadding);
+	// Idem
+	protected Worm(Player player, String name, int x, int y) {
+		super(x, y, imageWidth - 2 * rectPadding, imageHeight - 2 * rectPadding);
 
-    this.player = player;
-    this.name = name;
-  }
+		this.player = player;
+		this.name = name;
+	}
 
-  private static int getRandomStartingX() {
-    return RandomGenerator.getInstance().nextInt(Board.getB_WIDTH() - imageWidth);
-  }
+	private static int getRandomStartingX() {
+		return RandomGenerator.getInstance().nextInt(Board.getB_WIDTH() - imageWidth);
+	}
 
-  private static int getRandomStartingY() {
-    return RandomGenerator.getInstance().nextInt(Board.getB_HEIGHT() - imageHeight);
-  }
+	private static int getRandomStartingY() {
+		return RandomGenerator.getInstance().nextInt(Board.getB_HEIGHT() - imageHeight);
+	}
 
-  @Override
-  protected void drawMain(Graphics2D g, ImageObserver io) {
-    if (wormLF == null) initImages();
-    Image worm = isRightFacing() ? wormRF : wormLF;
+	@Override
+	protected void drawMain(Graphics2D g, ImageObserver io) {
+		if (wormLF == null) initImages();
+		Image worm = isRightFacing() ? wormRF : wormLF;
 
-    g.drawImage(worm, getX() - rectPadding, getY() - rectPadding, io);
+		g.drawImage(worm, getX() - rectPadding, getY() - rectPadding, io);
 
-    // Drawing the life and name
-    g.setColor(player.getColor());
-    g.drawString(""+name, (int) getX(), (int) getY() - 30);
-    g.drawString(""+life, (int) getX(), (int) getY() - 15);
-  }
+		// Drawing the life and name
+		g.setColor(player.getColor());
+		g.drawString(""+name, (int) getX(), (int) getY() - 30);
+		g.drawString(""+life, (int) getX(), (int) getY() - 15);
+	}
 
-  private boolean isRightFacing() {
-    return Math.abs(getDirection()) < 1e-6;
-  }
+	private boolean isRightFacing() {
+		return Math.abs(getDirection()) < 1e-6;
+	}
 
-  public Player getPlayer() {
-    return player;
-  }
+	public Player getPlayer() {
+		return player;
+	}
 
-  public boolean isUserMoving() {
-    return isUserMoving;
-  }
+	public boolean isUserMoving() {
+		return isUserMoving;
+	}
 
-  public void setUserMoving(boolean isUserMoving) {
-    this.isUserMoving = isUserMoving;
-  }
+	public void setUserMoving(boolean isUserMoving) {
+		this.isUserMoving = isUserMoving;
+	}
 
-  @Override
-  public void colideWith(AbstractBoardElement movable, Point2D prevPosition) {
-    setPosition(prevPosition);
-  }
+	@Override
+	public void colideWith(AbstractBoardElement movable, Point2D prevPosition) {
+		setPosition(prevPosition);
+	}
 
-  @Override
-  public String toString() {
-    return "Worm " + this.getName() + " / player : " + this.getPlayer();
-  }
+	@Override
+	public String toString() {
+		return "Worm " + this.getName() + " / player : " + this.getPlayer();
+	}
 
-  public String getName() {
-    return name;
-  }
+	public String getName() {
+		return name;
+	}
 
-  @Override
-  public void takeDamage(int damage) {
-    life -= damage;
-    if (life <= 0) {
-      die();
-    }
-  }
+	@Override
+	public void takeDamage(int damage) {
+		life -= damage;
+		if (life <= 0) {
+			die();
+		}
+	}
 
-  public void die() {
-    player.getWorms().remove(this);
-//    Helper.getTC().getPlayers().remove(player);
-    removeSelf();
-  }
+	public void die() {
+		
+		player.getWorms().remove(this);
+		removeSelf();
+		
+	}
 }
