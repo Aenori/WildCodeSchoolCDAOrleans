@@ -13,6 +13,7 @@ public class Player {
   private AbstractWeapon currentWeapon;
   private int currentWormIndex = 0;
   private boolean isAlive = true;
+  private boolean isBeginer = false;
 
   public Player(String name, Color color) {
     this.name = name;
@@ -73,6 +74,14 @@ public boolean isAlive() {
 
 public void setAlive(boolean isAlive) {
 	this.isAlive = isAlive;
+}
+
+public boolean isBeginer() {
+	return isBeginer;
+}
+
+public void setBeginer(boolean isBeginer) {
+	this.isBeginer = isBeginer;
 }
   
 }

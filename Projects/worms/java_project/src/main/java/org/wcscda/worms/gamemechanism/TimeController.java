@@ -17,129 +17,143 @@ import org.wcscda.worms.gamemechanism.phases.AbstractPhase;
 import org.wcscda.worms.gamemechanism.phases.WormMovingPhase;
 
 public class TimeController implements ActionListener {
-  private static TimeController instance;
-  private PhysicalController board;
-  private Timer timer;
-  private ArrayList<Player> players = new ArrayList<Player>();
-  private int activePlayerIndex = 0;
-  private AbstractPhase currentPhase;
-  private int phaseCount = 0;
+	private static TimeController instance;
+	private PhysicalController board;
+	private Timer timer;
+	private ArrayList<Player> players = new ArrayList<Player>();
+	private int activePlayerIndex = 0;
+	private AbstractPhase currentPhase;
+	private int phaseCount = 0;
 
-  public TimeController() {
-    instance = this;
-    initGame();
+	public TimeController() {
+		instance = this;
+		initGame();
 
-    board.addKeyListener(new KeyboardController());
+		board.addKeyListener(new KeyboardController());
 
-    timer = new Timer(Config.getClockDelay(), this);
-    timer.start();
-  }
+		timer = new Timer(Config.getClockDelay(), this);
+		timer.start();
+	}
 
-  private void initGame() {
-    board = new PhysicalController();
-    //Création des equipes et des worms qui leur appartient
+	private void initGame() {
+		board = new PhysicalController();
+		createPlayersAndWorms();
+		isBeginer();
+		setNextWorm();
+	}
 
-    Map<String, String[]> playerAndWorms = new HashMap<>();
-    Scanner scan1 = new Scanner(System.in);
-    System.out.println("Nombre de joueur ? ");
-    int nbPlayer = scan1.nextInt();
-    Scanner scan2 = new Scanner(System.in);
-    System.out.println("Nombre de worms ? ");
-    int nbWorms = scan2.nextInt();
-    
-    for(int i = 0; i < nbPlayer; i++) {
-        Scanner scan3 = new Scanner(System.in);
-    	System.out.println("Nom du joueur "+(i+1)+" : ");
-    	String namePlayer = scan3.nextLine();
-    	System.out.println("Le joueur "+(i+1)+" est "+namePlayer);
-    	playerAndWorms.put(namePlayer, new String[nbWorms]);
-    	for(int j = 0; j < nbWorms;j++) {
-    	    Scanner scan4 = new Scanner(System.in);
-    		System.out.println("Nom du worms "+(1+j)+" : ");
-    		playerAndWorms.get(namePlayer)[j] = scan4.nextLine();
-    	}
-    }
-    
-    Color color[] = {Color.RED, Color.blue, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.CYAN};
-    int colorIndex = 0;
-    for (Entry<String, String[]> player : playerAndWorms.entrySet()) {        //parcourir map [player] et ensuite [player][worms]
-        String joueurMap = player.getKey();										//clef de la map
-        String[] worms = player.getValue();										//tableau de valeur de la map
-        Player joueur = createPlayer(joueurMap, color[colorIndex]);						//creation de l'equipe
-        colorIndex++;
-        for (String nomWorm : worms) {												// valeur des clefs de la map
-        	Worm worm = joueur.createWorm(nomWorm);								//ajout des worms
-            board.wormInitialPlacement(worm);
-        }
-    }
+	public void createPlayersAndWorms() {
+		//Création des equipes et des worms qui leur appartient
+		Map<String, String[]> playerAndWorms = new HashMap<>();
+		Scanner scan1 = new Scanner(System.in);
+		System.out.println("Nombre de joueur ? ");
+		int nbPlayer = scan1.nextInt();
+		Scanner scan2 = new Scanner(System.in);
+		System.out.println("Nombre de worms ? ");
+		int nbWorms = scan2.nextInt();
 
-    setNextWorm();
-  }
+		for(int i = 0; i < nbPlayer; i++) {
+			Scanner scan3 = new Scanner(System.in);
+			System.out.println("Nom du joueur "+(i+1)+" : ");
+			String namePlayer = scan3.nextLine();
+			System.out.println("Le joueur "+(i+1)+" est "+namePlayer);
+			playerAndWorms.put(namePlayer, new String[nbWorms]);
+			for(int j = 0; j < nbWorms;j++) {
+				Scanner scan4 = new Scanner(System.in);
+				System.out.println("Nom du worms "+(1+j)+" : ");
+				playerAndWorms.get(namePlayer)[j] = scan4.nextLine();
+			}
+		}
+
+		Color color[] = {Color.RED, Color.blue, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.CYAN};
+		int colorIndex = 0;
+		for (Entry<String, String[]> player : playerAndWorms.entrySet()) {        //parcourir map [player] et ensuite [player][worms]
+			String joueurMap = player.getKey();										//clef de la map
+			String[] worms = player.getValue();										//tableau de valeur de la map
+			Player joueur = createPlayer(joueurMap, color[colorIndex]);						//creation de l'equipe
+			colorIndex++;
+			for (String nomWorm : worms) {												// valeur des clefs de la map
+				Worm worm = joueur.createWorm(nomWorm);								//ajout des worms
+				board.wormInitialPlacement(worm);
+			}
+		}
+	}
 
 
-  
-  public void setNextWorm() {
+	public void isBeginer() {
+		for (int i = 0; i < players.size(); i++) {
+			Scanner scan1 = new Scanner(System.in);
+			System.out.println("Le joueur "+players.get(i).getName()+" est il débutant ? (oui/non) : ");
+			String beginer = scan1.nextLine();
+			if(beginer.equals("oui")) {
+				players.get(i).setBeginer(true);
+			}
+		}
+	}
 
-    activePlayerIndex += 1;
-    activePlayerIndex %= players.size();
-    
-    
-    getActivePlayer().setNextWorm();
-    getActivePlayer().initWeapon();
-    
 
-    AbstractPhase phase = new WormMovingPhase();
-    this.setCurrentPhase(phase);
-  }
+	public void setNextWorm() {
 
-  private Player createPlayer(String name, Color color) {
-    Player player = new Player(name, color);
-    players.add(player);
+		activePlayerIndex += 1;
+		activePlayerIndex %= players.size();
 
-    return player;
-  }
 
-  public Component getBoard() {
-    return board;
-  }
+		getActivePlayer().setNextWorm();
+		getActivePlayer().initWeapon();
 
-  @Override
-  public void actionPerformed(ActionEvent e) {
-    phaseCount++;
-    board.actionPerformed(e);
-  }
 
-  public static TimeController getInstance() {
-    if (instance == null) {
-      instance = new TimeController();
-    }
-    return instance;
-  }
+		AbstractPhase phase = new WormMovingPhase();
+		this.setCurrentPhase(phase);
+	}
 
-  public AbstractPhase getCurrentPhase() {
-    return currentPhase;
-  }
+	private Player createPlayer(String name, Color color) {
+		Player player = new Player(name, color);
+		players.add(player);
 
-  public void setCurrentPhase(AbstractPhase currentPhase) {
-    if ((this.currentPhase != null) && this.currentPhase != currentPhase) {
-      this.currentPhase.removeSelf();
-    }
-    this.currentPhase = currentPhase;
-  }
+		return player;
+	}
 
-  public ArrayList<Player> getPlayers() {
-    return players;
-  }
+	public Component getBoard() {
+		return board;
+	}
 
-  public int getPhaseCount() {
-    return phaseCount;
-  }
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		phaseCount++;
+		board.actionPerformed(e);
+	}
 
-  public void setPhaseCount(int phaseCount) {
-    this.phaseCount = phaseCount;
-  }
+	public static TimeController getInstance() {
+		if (instance == null) {
+			instance = new TimeController();
+		}
+		return instance;
+	}
 
-  public Player getActivePlayer() {
-    return players.get(activePlayerIndex);
-  }
+	public AbstractPhase getCurrentPhase() {
+		return currentPhase;
+	}
+
+	public void setCurrentPhase(AbstractPhase currentPhase) {
+		if ((this.currentPhase != null) && this.currentPhase != currentPhase) {
+			this.currentPhase.removeSelf();
+		}
+		this.currentPhase = currentPhase;
+	}
+
+	public ArrayList<Player> getPlayers() {
+		return players;
+	}
+
+	public int getPhaseCount() {
+		return phaseCount;
+	}
+
+	public void setPhaseCount(int phaseCount) {
+		this.phaseCount = phaseCount;
+	}
+
+	public Player getActivePlayer() {
+		return players.get(activePlayerIndex);
+	}
 }
