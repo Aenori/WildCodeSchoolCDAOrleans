@@ -84,11 +84,11 @@ public class TimeController implements ActionListener {
 				nbAlive += 1;
 			}
 		}
-		System.out.print("il reste : "+nbAlive +" joueur en vie");
+		System.out.println("il reste : "+nbAlive +" joueur en vie");
 		for (int i = 0; i < Helper.getTC().getPlayers().size(); i++) {
 
 			if (nbAlive == 1 && Helper.getTC().getPlayers().get(i).isAlive()) {
-				System.out.print("Le winner est : " + Helper.getTC().getPlayers().get(i).getName());
+				System.out.println("Le winner est : " + Helper.getTC().getPlayers().get(i).getName());
 			}
 		}
   }
