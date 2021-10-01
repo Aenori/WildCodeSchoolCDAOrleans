@@ -71,6 +71,9 @@ public class Worm extends ARBEWithGravity implements IVisitable {
 	setWinner(g);
 }
 
+/* NRO 2021-10-01 : Ce n'est pas logique de mettre dans la classe Worm un comportement global comme cela.
+ * Ce n'est pas un des vers qui doit décider de la fin de la partie.
+ */
 public void setWinner(Graphics2D g) {
 	int nbAlive = 0;
 	for (int i = 0; i < Helper.getTC().getPlayers().size(); i++) {
