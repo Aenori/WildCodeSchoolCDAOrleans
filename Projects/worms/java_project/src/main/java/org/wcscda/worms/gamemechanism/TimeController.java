@@ -17,6 +17,7 @@ import org.wcscda.worms.gamemechanism.phases.AbstractPhase;
 import org.wcscda.worms.gamemechanism.phases.WormMovingPhase;
 
 public class TimeController implements ActionListener {
+
 	private static TimeController instance;
 	private PhysicalController board;
 	private Timer timer;
@@ -105,15 +106,23 @@ public class TimeController implements ActionListener {
 	}
 
 	protected void doSetNextWorm() {
-		activePlayerIndex += 1;
-		activePlayerIndex %= players.size();
-		
-		getActivePlayer().setNextWorm();
-		getActivePlayer().initWeapon();
+	    for (int i = 0; i < players.size(); ++i) {
+	      activePlayerIndex += 1;
+	      activePlayerIndex %= players.size();
+	      if (getActivePlayer().hasWorms()) break;
+	    }
 
-		AbstractPhase phase = new WormMovingPhase();
-		this.setCurrentPhase(phase);
-	}
+	    // No player have any worm, it is sad ...
+	    if (!getActivePlayer().hasWorms()) {
+	      return;
+	    }
+
+	    getActivePlayer().setNextWorm();
+	    getActivePlayer().initWeapon();
+
+	    AbstractPhase phase = new WormMovingPhase();
+	    this.setCurrentPhase(phase);
+	  }
 
 	private Player createPlayer(String name, Color color) {
 		Player player = new Player(name, color);

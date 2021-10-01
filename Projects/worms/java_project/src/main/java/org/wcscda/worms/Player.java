@@ -92,5 +92,8 @@ public class Player {
 	public void setBeginer(boolean isBeginer) {
 		this.isBeginer = isBeginer;
 	}
-
+	
+	  public boolean hasWorms() {
+		    return !getWorms().isEmpty();
+		  }
 }
