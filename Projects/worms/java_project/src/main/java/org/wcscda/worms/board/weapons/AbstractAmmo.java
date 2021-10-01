@@ -1,21 +1,40 @@
 package org.wcscda.worms.board.weapons;
 
+import java.awt.Shape;
 import java.awt.geom.Point2D;
-import org.wcscda.worms.board.AbstractBoardElement;
-import org.wcscda.worms.board.AbstractRectangularBoardElement;
-import org.wcscda.worms.board.Worm;
-import org.wcscda.worms.gamemechanism.TimeController;
+import org.wcscda.worms.Helper;
+import org.wcscda.worms.board.*;
 
-public abstract class AbstractAmmo extends AbstractRectangularBoardElement {
+public abstract class AbstractAmmo implements IMovableHandler {
   private static final int FIRING_WORM_ANTICOLLISION = 20;
 
   private final int firedPhase;
-  private final Worm firingWorm;
+  private final int explosionRadius;
+  private final int explosionDamage;
 
-  public AbstractAmmo(Worm worm, double x, double y, int rectWidth, int rectHeight) {
-    super(x, y, rectWidth, rectHeight);
-    firedPhase = TimeController.getInstance().getPhaseCount();
-    this.firingWorm = worm;
+  private AbstractRectangularBoardElement movable;
+
+  public AbstractAmmo(int explosionRadius, int explosionDamage) {
+    firedPhase = Helper.getClock();
+
+    this.explosionDamage = explosionDamage;
+    this.explosionRadius = explosionRadius;
+  }
+
+  public AbstractRectangularBoardElement getMovable() {
+    return movable;
+  }
+
+  // Override this method if you want to have another movement
+  // behaviour
+  protected void createMovableRect(int rectWidth, int rectHeight) {
+    this.movable =
+        new ARBEWIthHandler(
+            Helper.getWormX() - rectWidth / 2,
+            Helper.getWormY() - rectHeight / 2,
+            rectWidth,
+            rectHeight,
+            this);
   }
 
   protected int getFiredPhase() {
@@ -23,19 +42,25 @@ public abstract class AbstractAmmo extends AbstractRectangularBoardElement {
   }
 
   @Override
-  public void colideWith(AbstractBoardElement movable, Point2D prevPosition) {
-    if ((movable == firingWorm)
-        && TimeController.getInstance().getPhaseCount() <= firedPhase + FIRING_WORM_ANTICOLLISION) {
-      return;
+  public Boolean isColidingWithAdditionnal(Shape s) {
+    if ((s == Helper.getActiveWorm().getShape())
+        && Helper.getClock() <= firedPhase + FIRING_WORM_ANTICOLLISION) {
+      return false;
     }
-
-    // System.out.println("Ammo colided with " + movable);
-
-    removeSelf();
-    explode();
-
-    TimeController.getInstance().setNextWorm();
+    return null;
   }
 
-  protected abstract void explode();
+  @Override
+  public void colideWith(AbstractBoardElement movable, Point2D prevPosition) {
+    explode();
+
+    Helper.getCurrentWeapon().triggerAmmoExplosion();
+  }
+
+  protected void explode() {
+    this.movable.removeSelf();
+    Helper.getPC()
+        .generateExplosion(
+            this.movable.getCenterX(), this.movable.getCenterY(), explosionRadius, explosionDamage);
+  }
 }

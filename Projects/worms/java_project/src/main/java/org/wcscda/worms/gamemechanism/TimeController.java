@@ -8,7 +8,7 @@ import java.util.*;
 import javax.swing.Timer;
 import org.wcscda.worms.Config;
 import org.wcscda.worms.Player;
-import org.wcscda.worms.board.Worm;
+import org.wcscda.worms.Worm;
 import org.wcscda.worms.gamemechanism.phases.AbstractPhase;
 import org.wcscda.worms.gamemechanism.phases.WormMovingPhase;
 
@@ -20,8 +20,10 @@ public class TimeController implements ActionListener {
   private int activePlayerIndex = 0;
   private AbstractPhase currentPhase;
   private int phaseCount = 0;
+  private boolean delayedSetNextWorm;
 
   public TimeController() {
+    instance = this;
     initGame();
 
     board.addKeyListener(new KeyboardController());
@@ -41,14 +43,36 @@ public class TimeController implements ActionListener {
       board.wormInitialPlacement(worm);
     }
 
-    setNextWorm();
+    doSetNextWorm();
   }
 
   public void setNextWorm() {
-    activePlayerIndex += 1;
-    activePlayerIndex %= players.size();
+    delayedSetNextWorm = true;
+  }
 
-    AbstractPhase phase = new WormMovingPhase(getActivePlayer().getNextWorm());
+  protected void delayedActions() {
+    if (delayedSetNextWorm) {
+      delayedSetNextWorm = false;
+      doSetNextWorm();
+    }
+  }
+
+  protected void doSetNextWorm() {
+    for (int i = 0; i < players.size(); ++i) {
+      activePlayerIndex += 1;
+      activePlayerIndex %= players.size();
+      if (getActivePlayer().hasWorms()) break;
+    }
+
+    // No player have any worm, it is sad ...
+    if (!getActivePlayer().hasWorms()) {
+      return;
+    }
+
+    getActivePlayer().setNextWorm();
+    getActivePlayer().initWeapon();
+
+    AbstractPhase phase = new WormMovingPhase();
     this.setCurrentPhase(phase);
   }
 
@@ -66,11 +90,7 @@ public class TimeController implements ActionListener {
   @Override
   public void actionPerformed(ActionEvent e) {
     phaseCount++;
-    boolean inGame = board.actionPerformed(e);
-
-    if (!inGame) {
-      timer.stop();
-    }
+    board.actionPerformed(e);
   }
 
   public static TimeController getInstance() {
@@ -85,6 +105,9 @@ public class TimeController implements ActionListener {
   }
 
   public void setCurrentPhase(AbstractPhase currentPhase) {
+    if ((this.currentPhase != null) && this.currentPhase != currentPhase) {
+      this.currentPhase.removeSelf();
+    }
     this.currentPhase = currentPhase;
   }
 

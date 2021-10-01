@@ -2,32 +2,18 @@ package org.wcscda.worms.board;
 
 import java.awt.Shape;
 import java.awt.geom.Point2D;
-import java.util.HashSet;
+import java.util.stream.Stream;
 
-public abstract class AbstractMovable extends AbstractBoardElement {
+public abstract class AbstractMovable extends AbstractBoardElement implements IVisitable {
   // Speed is in pixel by clock iteration
   private double speed = 0.0;
   // In radian
   private double direction = 0.0;
 
-  private static final HashSet<AbstractMovable> allMovables = new HashSet<AbstractMovable>();
-  private static final HashSet<AbstractMovable> toBeRemoved = new HashSet<AbstractMovable>();
-
-  public static HashSet<AbstractMovable> getAllMovable() {
-    return allMovables;
-  }
-
-  public static HashSet<AbstractMovable> getToBeRemoved() {
-    return toBeRemoved;
-  }
-
-  public static void removeAllToBeRemoved() {
-    allMovables.removeAll(toBeRemoved);
-    toBeRemoved.clear();
-  }
-
-  public AbstractMovable() {
-    allMovables.add(this);
+  public static Stream<AbstractMovable> getAllMovable() {
+    return AbstractDrawableElement.getAllDrawable().stream()
+        .filter(ade -> ade instanceof AbstractMovable)
+        .map(AbstractMovable.class::cast);
   }
 
   public double getSpeed() {
@@ -52,7 +38,7 @@ public abstract class AbstractMovable extends AbstractBoardElement {
   public void setSpeedXY(double speedX, double speedY) {
     double newSpeed = Math.sqrt(Math.pow(speedX, 2) + Math.pow(speedY, 2));
 
-    if (newSpeed < 0.5) {
+    if (newSpeed < 0.05) {
       setSpeed(0);
       return;
     }
@@ -82,15 +68,10 @@ public abstract class AbstractMovable extends AbstractBoardElement {
     this.direction = direction;
   }
 
-  public void removeSelf() {
-    getToBeRemoved().add(this);
-  }
-
-  // This one is public
   public abstract void rawMove(double x, double y);
 
   public void singleMove(IMovableVisitor visitor, double x, double y) {
-    Point2D currentPosition = getCurrentPosition();
+    Point2D currentPosition = getPosition();
     rawMove(x, y);
     accept(currentPosition, visitor);
   }
@@ -99,7 +80,7 @@ public abstract class AbstractMovable extends AbstractBoardElement {
     singleMove(visitor, getSpeedX(), getSpeedY());
   }
 
-  public Point2D getCurrentPosition() {
+  public Point2D getPosition() {
     return new Point2D.Double(getX(), getY());
   }
 
@@ -123,12 +104,17 @@ public abstract class AbstractMovable extends AbstractBoardElement {
     return false;
   }
 
-  public abstract boolean isColidingWith(Shape s);
+  /* NRO 2021-09-30 : Check if the movable is in collision
+   * with a Shape. The Shape is a very generic java.awt
+   * object, so any physical element is represented by a check
+   */
+  public abstract boolean isCollidingWith(Shape s);
 
-  public abstract void colideWith(AbstractBoardElement movable, Point2D prevPosition);
+  public abstract void collideWith(AbstractBoardElement movable, Point2D prevPosition);
 
-  public boolean isColidingWith(AbstractBoardElement abe) {
-    return isColidingWith(abe.getShape());
+  public boolean isCollidingWith(AbstractBoardElement abe) {
+    if (abe == this) return false;
+    return isCollidingWith(abe.getShape());
   }
 
   // By default do nothing,might be overloaded
