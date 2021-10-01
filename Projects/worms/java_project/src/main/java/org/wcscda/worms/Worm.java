@@ -132,6 +132,9 @@ public void setWinner(Graphics2D g) {
 
   @Override
   public void takeDamage(int damage) {
+	  if(Helper.getActivePlayer().isBeginer()) {
+		  damage = (int) (damage*1.25);
+	  }
     life -= damage;
     if (life <= 0) {
       die();
