@@ -1,5 +1,6 @@
 package org.wcscda.worms;
 
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.Point2D;
@@ -65,8 +66,31 @@ public class Worm extends ARBEWithGravity implements IVisitable {
     // Drawing the life
     g.setColor(player.getColor());
     g.drawString("" + getShownLife(), (int) getX(), (int) getY() - 15);
+	g.drawString("" + name, (int) getX(), (int) getY() - 30);
+	
+	setWinner(g);
   }
 
+  /* NRO 2021-10-01 : Ce n'est pas logique de mettre dans la classe Worm un comportement global comme cela.
+   * Ce n'est pas un des vers qui doit décider de la fin de la partie.
+   */
+  public void setWinner(Graphics2D g) {
+  	int nbAlive = 0;
+  	for (int i = 0; i < Helper.getTC().getPlayers().size(); i++) {
+  		if (Helper.getTC().getPlayers().get(i).isAlive()) {
+  			nbAlive += 1;
+  		}
+  	}
+  	for (int i = 0; i < Helper.getTC().getPlayers().size(); i++) {
+
+  		if (nbAlive == 1 && Helper.getTC().getPlayers().get(i).isAlive()) {
+  			Font base = g.getFont();
+  			g.setFont(new Font("TimesRoman", Font.PLAIN, 80));
+  			g.drawString("Le winner est : " + Helper.getTC().getPlayers().get(i).getName(), 250, 250);
+  			g.setFont(base);
+  		}
+  	}
+  }
   private int getShownLife() {
 
     if (life < shownLife) {
@@ -117,6 +141,10 @@ public class Worm extends ARBEWithGravity implements IVisitable {
   }
 
   public void die() {
+    player.getWorms().remove(this);
+	if(player.getWorms().isEmpty()) {
+		player.setAlive(false);
+	}
     removeSelf();
   }
 
