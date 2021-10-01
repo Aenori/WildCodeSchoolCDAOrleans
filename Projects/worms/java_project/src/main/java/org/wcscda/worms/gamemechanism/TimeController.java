@@ -24,6 +24,7 @@ public class TimeController implements ActionListener {
 	private int activePlayerIndex = 0;
 	private AbstractPhase currentPhase;
 	private int phaseCount = 0;
+	private boolean delayedSetNextWorm;
 
 	public TimeController() {
 		instance = this;
@@ -39,7 +40,7 @@ public class TimeController implements ActionListener {
 		board = new PhysicalController();
 		createPlayersAndWorms();
 		isBeginer();
-		setNextWorm();
+		doSetNextWorm();
 	}
 
 	public void createPlayersAndWorms() {
@@ -92,15 +93,22 @@ public class TimeController implements ActionListener {
 	}
 
 
-	public void setNextWorm() {
+	public void setNextWorm() {    
+		delayedSetNextWorm = true;
+	}
+	
+	protected void delayedActions() {
+		if (delayedSetNextWorm) {
+			delayedSetNextWorm = false;
+			doSetNextWorm();
+		}
+	}
 
+	protected void doSetNextWorm() {
 		activePlayerIndex += 1;
 		activePlayerIndex %= players.size();
-
-
 		getActivePlayer().setNextWorm();
 		getActivePlayer().initWeapon();
-
 
 		AbstractPhase phase = new WormMovingPhase();
 		this.setCurrentPhase(phase);

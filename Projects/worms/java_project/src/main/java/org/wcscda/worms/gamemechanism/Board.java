@@ -54,17 +54,17 @@ public abstract class Board extends JPanel {
 		}
 		repaint();
 		doMoves();
-
 		AbstractDrawableElement.processToBeRemovedAndAdded();
+		Helper.getTC().delayedActions();
 
 		new EndOfTurnEvent(Helper.getClock());
 	}
 
-  /* NRO : TODO-Student : choose when to decide the game is finished
-   */
-  private boolean isGameFinished() {
-    return false;
-  }
+	/* NRO : TODO-Student : choose when to decide the game is finished
+	 */
+	private boolean isGameFinished() {
+		return false;
+	}
 
 	protected abstract void doMoves();
 
