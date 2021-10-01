@@ -139,7 +139,7 @@ public void setWinner(Graphics2D g) {
 
   public void die() {
     player.getWorms().remove(this);
-    if(player.getWorms().isEmpty()) {
+	if(player.getWorms().isEmpty()) {
 		player.setAlive(false);
 	}
     removeSelf();
