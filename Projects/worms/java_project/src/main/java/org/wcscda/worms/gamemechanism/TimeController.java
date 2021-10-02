@@ -66,7 +66,11 @@ public class TimeController implements ActionListener {
 			}
 		}
 
+
 		Color color[] = {Color.RED, Color.blue, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.CYAN, Color.MAGENTA, Color.PINK};
+
+		//Color color[] = {Color.RED, Color.blue, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.CYAN};
+
 		int colorIndex = 0;
 		for (Entry<String, String[]> player : playerAndWorms.entrySet()) {        //parcourir map [player] et ensuite [player][worms]
 			String joueurMap = player.getKey();										//clef de la map
@@ -92,10 +96,11 @@ public class TimeController implements ActionListener {
 		}
 	}
 
-	public void setNextWorm() {
+
+	public void setNextWorm() {    
 		delayedSetNextWorm = true;
 	}
-
+	
 	protected void delayedActions() {
 		if (delayedSetNextWorm) {
 			delayedSetNextWorm = false;
@@ -104,16 +109,21 @@ public class TimeController implements ActionListener {
 	}
 
 	protected void doSetNextWorm() {
+
 		for (int i = 0; i < players.size(); ++i) {
 			activePlayerIndex += 1;
 			activePlayerIndex %= players.size();
-			if (getActivePlayer().hasWorms()) break;
+			if (getActivePlayer().hasWorms())
+				break;
 		}
 
 		// No player have any worm, it is sad ...
 		if (!getActivePlayer().hasWorms()) {
 			return;
 		}
+
+		activePlayerIndex += 1;
+		activePlayerIndex %= players.size();
 
 		getActivePlayer().setNextWorm();
 		getActivePlayer().initWeapon();
