@@ -138,6 +138,9 @@ public class Worm extends ARBEWithGravity implements IVisitable {
 
   @Override
   public void takeDamage(int damage) {
+	  if(Helper.getActivePlayer().isBeginer()) {
+		  damage = (int) (damage*1.25);
+	  }
     life -= damage;
     if (life <= 0) {
       die();
