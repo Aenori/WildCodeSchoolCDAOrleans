@@ -3,6 +3,7 @@ package org.wcscda.worms;
 import java.awt.Color;
 import java.util.ArrayList;
 import org.wcscda.worms.board.weapons.AbstractWeapon;
+import org.wcscda.worms.board.weapons.Grenade;
 import org.wcscda.worms.board.weapons.Hadoken;
 import org.wcscda.worms.board.weapons.Shotgun;
 
@@ -50,7 +51,11 @@ public class Player {
 	}
 
 	public void setNextWorm() {
+
 		if (worms.isEmpty()) return;
+
+		if(worms.isEmpty()) return;
+
 
 		currentWormIndex += 1;
 		currentWormIndex %= worms.size();
@@ -68,7 +73,7 @@ public class Player {
 		if (currentWeapon instanceof Hadoken) {
 			currentWeapon = new Shotgun();
 		} else {
-			currentWeapon = new Hadoken();
+			currentWeapon = new Grenade();
 		}
 	}
 
@@ -84,8 +89,10 @@ public class Player {
 	public void setBeginer(boolean isBeginer) {
 		this.isBeginer = isBeginer;
 	}
+
 	
 	  public boolean hasWorms() {
 		    return !getWorms().isEmpty();
 		  }
+
 }
