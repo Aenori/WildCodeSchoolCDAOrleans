@@ -12,7 +12,6 @@ public class Player {
 	private final ArrayList<Worm> worms = new ArrayList<Worm>();
 	private AbstractWeapon currentWeapon;
 	private int currentWormIndex = 0;
-	private boolean isAlive = true;
 	private boolean isBeginer = false;
 
 	public Player(String name, Color color) {
@@ -77,13 +76,6 @@ public class Player {
 		currentWeapon = new Hadoken();
 	}
 
-	public boolean isAlive() {
-		return isAlive;
-	}
-
-	public void setAlive(boolean isAlive) {
-		this.isAlive = isAlive;
-	}
 
 	public boolean isBeginer() {
 		return isBeginer;

@@ -77,13 +77,12 @@ public class Worm extends ARBEWithGravity implements IVisitable {
   public void setWinner(Graphics2D g) {
   	int nbAlive = 0;
   	for (int i = 0; i < Helper.getTC().getPlayers().size(); i++) {
-  		if (Helper.getTC().getPlayers().get(i).isAlive()) {
+  		if (Helper.getTC().getPlayers().get(i).hasWorms()) {
   			nbAlive += 1;
   		}
   	}
   	for (int i = 0; i < Helper.getTC().getPlayers().size(); i++) {
-
-  		if (nbAlive == 1 && Helper.getTC().getPlayers().get(i).isAlive()) {
+  		if (nbAlive == 1 && Helper.getTC().getPlayers().get(i).hasWorms()) {
   			Font base = g.getFont();
   			g.setFont(new Font("TimesRoman", Font.PLAIN, 80));
   			g.drawString("Le winner est : " + Helper.getTC().getPlayers().get(i).getName(), 250, 250);
@@ -141,10 +140,6 @@ public class Worm extends ARBEWithGravity implements IVisitable {
   }
 
   public void die() {
-    player.getWorms().remove(this);
-	if(player.getWorms().isEmpty()) {
-		player.setAlive(false);
-	}
     removeSelf();
   }
 
