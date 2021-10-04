@@ -2,11 +2,15 @@ package org.wcscda.worms.gamemechanism;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
+import java.util.Map.Entry;
+
 import javax.swing.Timer;
 import org.wcscda.worms.Config;
+import org.wcscda.worms.Helper;
 import org.wcscda.worms.Player;
 import org.wcscda.worms.Worm;
 import org.wcscda.worms.gamemechanism.phases.AbstractPhase;
@@ -22,29 +26,76 @@ public class TimeController implements ActionListener {
   private int phaseCount = 0;
   private boolean delayedSetNextWorm;
 
-  public TimeController() {
-    instance = this;
-    initGame();
+	public TimeController() {
+		instance = this;
+		initGame();
 
-    board.addKeyListener(new KeyboardController());
+		board.addKeyListener(new KeyboardController());
 
-    timer = new Timer(Config.getClockDelay(), this);
-    timer.start();
-  }
+		timer = new Timer(Config.getClockDelay(), this);
+		timer.start();
+	}
 
-  private void initGame() {
-    board = new PhysicalController();
-    // Lucky luke because for the moment he is a poor lonesome
-    // player
-    Player luckyLuke = createPlayer("Lucky Luke", Color.RED);
+	private void initGame() {
+		board = new PhysicalController();
+		createPlayersAndWorms();
+		isBeginer();
+		doSetNextWorm();
+	}
 
-    for (String name : new String[] {"Joly jumper", "rantanplan"}) {
-      Worm worm = luckyLuke.createWorm(name);
-      board.wormInitialPlacement(worm);
-    }
+	public void createPlayersAndWorms() {
+		//Création des equipes et des worms qui leur appartient
+		Map<String, String[]> playerAndWorms = new HashMap<>();
+		Scanner scan1 = new Scanner(System.in);
+		System.out.println("Nombre de joueur ? ");
+		int nbPlayer = scan1.nextInt();
+		Scanner scan2 = new Scanner(System.in);
+		System.out.println("Nombre de worms ? ");
+		int nbWorms = scan2.nextInt();
 
-    doSetNextWorm();
-  }
+		for(int i = 0; i < nbPlayer; i++) {
+			Scanner scan3 = new Scanner(System.in);
+			System.out.println("Nom du joueur "+(i+1)+" : ");
+			String namePlayer = scan3.nextLine();
+			System.out.println("Le joueur "+(i+1)+" est "+namePlayer);
+			playerAndWorms.put(namePlayer, new String[nbWorms]);
+			for(int j = 0; j < nbWorms;j++) {
+				Scanner scan4 = new Scanner(System.in);
+				System.out.println("Nom du worms "+(1+j)+" : ");
+				playerAndWorms.get(namePlayer)[j] = scan4.nextLine();
+			}
+		}
+
+
+		Color color[] = {Color.RED, Color.blue, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.CYAN, Color.MAGENTA, Color.PINK};
+
+		//Color color[] = {Color.RED, Color.blue, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.CYAN};
+
+		int colorIndex = 0;
+		for (Entry<String, String[]> player : playerAndWorms.entrySet()) {        //parcourir map [player] et ensuite [player][worms]
+			String joueurMap = player.getKey();										//clef de la map
+			String[] worms = player.getValue();										//tableau de valeur de la map
+			Player joueur = createPlayer(joueurMap, color[colorIndex]);						//creation de l'equipe
+			colorIndex++;
+			for (String nomWorm : worms) {												// valeur des clefs de la map
+				Worm worm = joueur.createWorm(nomWorm);								//ajout des worms
+				board.wormInitialPlacement(worm);
+			}
+		}
+	}
+
+
+	public void isBeginer() {
+		for (int i = 0; i < players.size(); i++) {
+			Scanner scan1 = new Scanner(System.in);
+			System.out.println("Le joueur "+players.get(i).getName()+" est il débutant ? (oui/non) : ");
+			String beginer = scan1.nextLine();
+			if(beginer.equals("oui")) {
+				players.get(i).setBeginer(true);
+			}
+		}
+	}
+
 
   public void setNextWorm() {
     delayedSetNextWorm = true;
