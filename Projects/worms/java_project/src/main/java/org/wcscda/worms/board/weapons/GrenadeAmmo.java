@@ -1,17 +1,13 @@
 package org.wcscda.worms.board.weapons;
 
 import org.wcscda.worms.Helper;
-import org.wcscda.worms.Worm;
 import org.wcscda.worms.board.ARBEWithGravityAndHandler;
-import org.wcscda.worms.board.AbstractRectangularBoardElement;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.ImageObserver;
 
 public class GrenadeAmmo extends AbstractAmmo {
-	private static final int HADOKEN_AMMO_RADIUS = 15;
 	private static final int GRENADE_RECT_SIZE = 10;
 	private static final int EXPLOSION_RADIUS = 50;
 	private static final int EXPLOSION_DAMAGE = 30;
@@ -50,7 +46,7 @@ public class GrenadeAmmo extends AbstractAmmo {
 				rectWidth,
 				rectHeight,
 				this));
-				
+				System.err.print(rectWidth+" "+rectHeight);
 	}
 
 	@Override
