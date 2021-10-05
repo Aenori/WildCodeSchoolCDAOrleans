@@ -2,6 +2,8 @@ package org.wcscda.worms.board.weapons;
 
 import org.wcscda.worms.Helper;
 import org.wcscda.worms.Worm;
+import org.wcscda.worms.board.ARBEWIthHandler;
+import org.wcscda.worms.board.AbstractRectangularBoardElement;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,16 +15,17 @@ public class GrenadeAmmo extends AbstractAmmo {
 	private static final int GRENADE_RECT_SIZE = 10;
 	private static final int EXPLOSION_RADIUS = 50;
 	private static final int EXPLOSION_DAMAGE = 30;
-	private static final int INITIAL_SPEED = 3;
+	private static final int INITIAL_SPEED = 6;
 	private static final String[] imagePath = {
 			"src/resources/weapons/grenade1.png",
 			"src/resources/weapons/grenade2.png",
 			"src/resources/weapons/grenade3.png",
 			"src/resources/weapons/grenade4.png"
-			};
+	};
 	private static final Image[] grenade = new Image[4];
 	private final double initialX;
 	private final double initialY;
+	private AbstractRectangularBoardElement movable;
 
 	public GrenadeAmmo(Double angle) {
 		super(EXPLOSION_RADIUS, EXPLOSION_DAMAGE);
@@ -39,8 +42,17 @@ public class GrenadeAmmo extends AbstractAmmo {
 			grenade[i] = new ImageIcon(imagePath[i]).getImage().getScaledInstance(30, 30, 0);
 		}
 	}
+	@Override
+	protected void createMovableRect(int rectWidth, int rectHeight) {
+		this.movable =
+				new ARBEWIthHandler(
+						Helper.getWormX() - rectWidth / 2,
+						Helper.getWormY() - rectHeight / 2,
+						rectWidth,
+						rectHeight,
+						this);
+	}
 
-	
 	@Override
 	public void drawMain(Graphics2D g, ImageObserver io) {
 		if (grenade[0] == null) {
