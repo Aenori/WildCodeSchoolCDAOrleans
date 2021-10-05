@@ -14,7 +14,11 @@ public class ARBEWithGravityAndHandler extends ARBEWithGravity{
 
     private Rectangle2D supportRect;
 
-    public ARBEWithGravityAndHandler(
+    public AbstractRectangularBoardElement getMovable() {
+		return movable;
+	}
+
+	public ARBEWithGravityAndHandler(
             double x, double y, int rectWidth, int rectHeight, IMovableHandler movableHandler) {
         super(x, y, rectWidth, rectHeight);
         this.movableHandler = movableHandler;
@@ -24,33 +28,58 @@ public class ARBEWithGravityAndHandler extends ARBEWithGravity{
     }
 
     public Rectangle2D getOuterRect() {
-        return supportRect;
+      return supportRect;
     }
 
     public boolean isStandingOn(Shape s) {
-        return s.intersects(getOuterRect());
+      return s.intersects(getOuterRect());
+    }
+
+    @Override
+    public void rawMove(double x, double y) {
+      super.rawMove(x, y);
+      GeomUtils.moveRect(supportRect, x, y);
+    }
+
+    // NRO 2021-09-25 :
+    // Question subtile, à quoi sert cette fonction, qui est
+    // exactement la même que le accept de AbstractMovable ??
+    @Override
+    public void accept(Point2D prevPosition, IMovableVisitor visitor) {
+      visitor.visit(this, prevPosition);
+    }
+
+    @Override
+    protected void drawDebug(Graphics2D g, ImageObserver io) {
+      super.drawDebug(g, io);
+      g.setColor(Color.ORANGE);
+      g.draw(getOuterRect());
+    }
+
+    public boolean isSubjectToGravity() {
+      return true;
     }
 
     @Override
     protected void drawMain(Graphics2D g, ImageObserver io) {
-        movableHandler.drawMain(g, io);
+      movableHandler.drawMain(g, io);
     }
 
     @Override
     public void collideWith(AbstractBoardElement movable, Point2D prevPosition) {
-        movableHandler.colideWith(movable, prevPosition);
+      movableHandler.colideWith(movable, prevPosition);
     }
 
     @Override
     public boolean isCollidingWith(Shape s) {
-        Boolean fromAdditionnal = movableHandler.isColidingWithAdditionnal(s);
-        if (fromAdditionnal != null) {
-            return fromAdditionnal;
-        }
-        return super.isCollidingWith(s);
+      Boolean fromAdditionnal = movableHandler.isColidingWithAdditionnal(s);
+      if (fromAdditionnal != null) {
+        return fromAdditionnal;
+      }
+      return super.isCollidingWith(s);
     }
 
-    public boolean isSubjectToGravity() {
-        return true;
-    }
+	public void setMovable(AbstractRectangularBoardElement movable) {
+		this.movable = movable;
+	}
 }
