@@ -70,7 +70,7 @@ public class Player {
 			return;
 		}
 
-		if (currentWeapon instanceof Hadoken) {
+		if (currentWeapon instanceof Hadoken || currentWeapon instanceof Grenade) {
 			currentWeapon = new Shotgun();
 		} else {
 			currentWeapon = new Grenade();

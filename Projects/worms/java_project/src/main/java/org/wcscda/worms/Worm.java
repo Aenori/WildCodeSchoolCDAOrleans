@@ -29,6 +29,10 @@ public class Worm extends ARBEWithGravity implements IVisitable {
 	private final Player player;
 	private boolean isUserMoving;
 
+	public void setLife(int life) {
+		this.life = life;
+	}
+
 	private static void initImages() {
 		wormLF =
 				new ImageIcon(leftFacingResource).getImage().getScaledInstance(imageWidth, imageHeight, 0);
