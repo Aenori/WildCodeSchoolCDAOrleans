@@ -15,6 +15,7 @@ public class Player {
 	private AbstractWeapon currentWeapon;
 	private int currentWormIndex = 0;
 	private boolean isBeginer = false;
+	private int superGrenadeAmmo = 1;
 
 	public Player(String name, Color color) {
 		this.name = name;
@@ -99,5 +100,13 @@ public class Player {
 	  public boolean hasWorms() {
 		    return !getWorms().isEmpty();
 		  }
+
+	public int getSuperGrenadeAmmo() {
+		return superGrenadeAmmo;
+	}
+
+	public void setSuperGrenadeAmmo(int superGrenadeAmmo) {
+		this.superGrenadeAmmo = superGrenadeAmmo;
+	}
 
 }
