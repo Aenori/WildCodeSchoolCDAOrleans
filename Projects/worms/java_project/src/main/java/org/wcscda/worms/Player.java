@@ -6,6 +6,7 @@ import org.wcscda.worms.board.weapons.AbstractWeapon;
 import org.wcscda.worms.board.weapons.Grenade;
 import org.wcscda.worms.board.weapons.Hadoken;
 import org.wcscda.worms.board.weapons.Shotgun;
+import org.wcscda.worms.board.weapons.SuperGrenade;
 
 public class Player {
 	private final String name;
@@ -72,8 +73,12 @@ public class Player {
 
 		if (currentWeapon instanceof Hadoken) {
 			currentWeapon = new Shotgun();
-		} else {
+		} else if (currentWeapon instanceof Shotgun){
 			currentWeapon = new Grenade();
+		} else if (currentWeapon instanceof Grenade){
+			currentWeapon = new SuperGrenade();
+		} else if (currentWeapon instanceof SuperGrenade){
+			currentWeapon = new Hadoken();
 		}
 	}
 
