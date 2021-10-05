@@ -11,7 +11,7 @@ public class GrenadeAmmo extends AbstractAmmo {
 	private static final int GRENADE_RECT_SIZE = 10;
 	private static final int EXPLOSION_RADIUS = 50;
 	private static final int EXPLOSION_DAMAGE = 30;
-	private static final int INITIAL_SPEED = 10;
+	private static final int INITIAL_SPEED = 7;
 	private static final String[] imagePath = {
 			"src/resources/weapons/grenade1.png",
 			"src/resources/weapons/grenade2.png",
