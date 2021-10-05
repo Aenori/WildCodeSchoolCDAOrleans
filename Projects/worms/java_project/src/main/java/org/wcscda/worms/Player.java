@@ -6,6 +6,7 @@ import org.wcscda.worms.board.weapons.AbstractWeapon;
 import org.wcscda.worms.board.weapons.Grenade;
 import org.wcscda.worms.board.weapons.Hadoken;
 import org.wcscda.worms.board.weapons.Shotgun;
+import org.wcscda.worms.board.weapons.SuperGrenade;
 
 public class Player {
 	private final String name;
@@ -14,6 +15,7 @@ public class Player {
 	private AbstractWeapon currentWeapon;
 	private int currentWormIndex = 0;
 	private boolean isBeginer = false;
+	private int superGrenadeAmmo = 1;
 
 	public Player(String name, Color color) {
 		this.name = name;
@@ -72,8 +74,12 @@ public class Player {
 
 		if (currentWeapon instanceof Hadoken || currentWeapon instanceof Grenade) {
 			currentWeapon = new Shotgun();
-		} else {
+		} else if (currentWeapon instanceof Shotgun){
 			currentWeapon = new Grenade();
+		} else if (currentWeapon instanceof Grenade){
+			currentWeapon = new SuperGrenade();
+		} else if (currentWeapon instanceof SuperGrenade){
+			currentWeapon = new Hadoken();
 		}
 	}
 
@@ -94,5 +100,13 @@ public class Player {
 	  public boolean hasWorms() {
 		    return !getWorms().isEmpty();
 		  }
+
+	public int getSuperGrenadeAmmo() {
+		return superGrenadeAmmo;
+	}
+
+	public void setSuperGrenadeAmmo(int superGrenadeAmmo) {
+		this.superGrenadeAmmo = superGrenadeAmmo;
+	}
 
 }

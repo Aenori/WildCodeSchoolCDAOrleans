@@ -9,7 +9,7 @@ import org.wcscda.worms.Helper;
 public class HadokenAmmo extends AbstractAmmo {
   private static final int HADOKEN_AMMO_RADIUS = 15;
   private static final int HADOKEN_RECT_SIZE = 10;
-  private static final int EXPLOSION_RADIUS = 100;
+  private static final int EXPLOSION_RADIUS = 30;
   private static final int EXPLOSION_DAMAGE = 30;
   private static final int INITIAL_SPEED = 5;
 
