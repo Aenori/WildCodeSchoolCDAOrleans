@@ -10,7 +10,7 @@ import java.awt.image.ImageObserver;
 public class ARBEWithGravityAndHandler extends ARBEWithGravity{
 	private AbstractRectangularBoardElement movable;
     private final IMovableHandler movableHandler;
-    private static final int STANDING_RECTANGLE_HEIGHT = 5;
+    private static final int STANDING_RECTANGLE_HEIGHT = 0;
 
     private Rectangle2D supportRect;
 
@@ -78,8 +78,4 @@ public class ARBEWithGravityAndHandler extends ARBEWithGravity{
       }
       return super.isCollidingWith(s);
     }
-
-	public void setMovable(AbstractRectangularBoardElement movable) {
-		this.movable = movable;
-	}
 }
