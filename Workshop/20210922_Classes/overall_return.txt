@@ -1,0 +1,8 @@
+<<<<<<< HEAD
+// NRO 2021-09-27 : Pas de retour à faire sur ce workshop (ce qui est en soit un excellent retour)
+=======
+NRO 2021-09-27 : la syntax de l'héritage est bien compris, attention à l'indentation et
+ les conventions de nommage (pas d'attributes qui commencent par une majuscule)
+Après l'objectif de minimiser le nombre de méthode invite à définir une classe
+"animal avec patte".
+>>>>>>> 3aa382406e5d7e17afcf52e4e2e430a3338c91ec

@@ -13,7 +13,8 @@ import org.wcscda.worms.board.IVisitable;
 import org.wcscda.worms.gamemechanism.Board;
 
 public class Worm extends ARBEWithGravity implements IVisitable {
-	private static final String leftFacingResource = "src/resources/WormLF.png";
+
+  private static final String leftFacingResource = "src/resources/WormLF.png";
 	private static final String rightFacingResource = "src/resources/WormRF.png";
 
 	private static final int imageHeight = 60;
