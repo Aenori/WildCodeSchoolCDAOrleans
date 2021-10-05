@@ -41,6 +41,7 @@ public class TimeController implements ActionListener {
 		createPlayersAndWorms();
 		isBeginer();
 		doSetNextWorm();
+		new Scores();
 	}
 
 	public void createPlayersAndWorms() {
