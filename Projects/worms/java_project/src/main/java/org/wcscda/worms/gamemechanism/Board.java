@@ -111,8 +111,4 @@ public abstract class Board extends JPanel {
   public WormField getWormField() {
     return wormField;
   }
-
-  public void addWindowListener(WindowListener w) {
-    WormLauncher.getInstance().addWindowListener(w);
-  }
 }

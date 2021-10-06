@@ -6,6 +6,11 @@ public class RandomGenerator {
   private static Random instance;
   private static Integer seed;
 
+  public static void setInstanceWithSeed(int seed) {
+    instance = new Random(seed);
+    RandomGenerator.seed = seed;
+  }
+
   public static Random getInstance() {
     if (instance == null) {
       int seed;

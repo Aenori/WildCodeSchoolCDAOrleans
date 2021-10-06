@@ -13,6 +13,7 @@ import org.wcscda.worms.gamemechanism.phases.AbstractPhase;
 import org.wcscda.worms.gamemechanism.phases.WormMovingPhase;
 import org.wcscda.worms.gamemechanism.playerrecorder.KeyboardControllerPlayer;
 import org.wcscda.worms.gamemechanism.playerrecorder.KeyboardControllerRecorder;
+import org.wcscda.worms.gamemechanism.sound.WormSoundPlayer;
 
 public class TimeController implements ActionListener {
   private static TimeController instance;
@@ -37,19 +38,22 @@ public class TimeController implements ActionListener {
 
   public TimeController() {
     instance = this;
-    initGame();
     keyboardController = createController();
+    initGame();
     board.addKeyListener(keyboardController);
 
     timer = new Timer(Config.getClockDelay(), this);
     timer.start();
+
+    new WormSoundPlayer().playSound("src/resources/Nanatsu no Taizai AMV - Human Race.mp3");
   }
 
   private KeyboardController createController() {
     if (Config.getRecordGame()) {
-      return new KeyboardControllerRecorder(this.board);
+      return new KeyboardControllerRecorder(WormLauncher.getInstance());
     } else if (Config.getPlayRecord()) {
-      return new KeyboardControllerPlayer();
+      System.out.println("Creating player ...");
+      return KeyboardControllerPlayer.loadFromFile(Config.getScriptFilename());
     } else {
       return new KeyboardController();
     }
