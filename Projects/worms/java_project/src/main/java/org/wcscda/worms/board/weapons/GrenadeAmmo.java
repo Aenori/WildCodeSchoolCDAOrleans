@@ -41,6 +41,7 @@ public class GrenadeAmmo extends AbstractAmmo {
 
 		initialX = Helper.getWormX();
 		initialY = Helper.getWormY();
+		setInitialPosition();
 	}
 
 	private static void initImages() {
