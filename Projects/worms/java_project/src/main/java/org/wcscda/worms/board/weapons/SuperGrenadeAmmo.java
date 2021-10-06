@@ -53,7 +53,6 @@ public class SuperGrenadeAmmo extends AbstractAmmo {
 
 		if(initTimer + 100 <= Helper.getClock()) {
 		      super.colideWith(movable, prevPosition);
-			explode();
 		}
 	}
 	
