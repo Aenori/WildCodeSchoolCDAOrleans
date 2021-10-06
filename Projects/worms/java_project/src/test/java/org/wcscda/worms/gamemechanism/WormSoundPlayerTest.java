@@ -7,8 +7,7 @@ import org.wcscda.worms.gamemechanism.sound.WormSoundPlayer;
 
 public class WormSoundPlayerTest {
   private static final String testFilename = "src/resources/Explosion1.wav";
-  private static final String testMp3Filename =
-      "src/resources/Nanatsu no Taizai AMV - Human Race.mp3";
+  private static final String testMp3Filename = "src/resources/Castle_In_The_Sky.mp3";
 
   @Test
   public void playWav() {
