@@ -2,9 +2,14 @@ package org.wcscda.worms.board.weapons;
 
 import org.wcscda.worms.Helper;
 import org.wcscda.worms.board.ARBEWithGravityAndHandler;
+import org.wcscda.worms.board.AbstractBoardElement;
+import org.wcscda.worms.board.AbstractMovable;
+import org.wcscda.worms.board.IMovableHandler;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.awt.image.ImageObserver;
 
 public class GrenadeAmmo extends AbstractAmmo {
@@ -25,6 +30,8 @@ public class GrenadeAmmo extends AbstractAmmo {
 	private static final Image[] grenade = new Image[8];
 	private final double initialX;
 	private final double initialY;
+	private int initTimer;
+;
 
 	public GrenadeAmmo(Double angle) {
 		super(EXPLOSION_RADIUS, EXPLOSION_DAMAGE);
@@ -43,7 +50,19 @@ public class GrenadeAmmo extends AbstractAmmo {
 	}
 	
 	@Override
+	public void colideWith(AbstractBoardElement movable, Point2D prevPosition) {
+		this.getMovable().setPosition(prevPosition);
+
+		if(initTimer + 100 <= Helper.getClock()) {
+		      super.colideWith(movable, prevPosition);
+			explode();
+		}
+	}
+	
+	@Override
 	protected void createMovableRect(int rectWidth, int rectHeight) {
+		initTimer = Helper.getClock();
+		
 		setMovable(new ARBEWithGravityAndHandler(
 				Helper.getWormX() - rectWidth / 2,
 				Helper.getWormY() - rectHeight / 2,
@@ -54,6 +73,8 @@ public class GrenadeAmmo extends AbstractAmmo {
 
 	@Override
 	public void drawMain(Graphics2D g, ImageObserver io) {
+		System.out.println(initTimer+" "+Helper.getClock()+" "+super.getFiredPhase());
+
 		if (grenade[0] == null) {
 			initImages();
 		}
