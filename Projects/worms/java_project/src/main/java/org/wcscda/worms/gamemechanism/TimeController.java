@@ -45,7 +45,7 @@ public class TimeController implements ActionListener {
     timer = new Timer(Config.getClockDelay(), this);
     timer.start();
 
-    new WormSoundPlayer().playSound("src/resources/Castle_In_The_Sky.mp3");
+    // new WormSoundPlayer().playSound("src/resources/Castle_In_The_Sky.mp3");
   }
 
   private KeyboardController createController() {
