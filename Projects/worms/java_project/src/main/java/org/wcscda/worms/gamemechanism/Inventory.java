@@ -13,6 +13,10 @@ import org.wcscda.worms.Helper;
 import org.wcscda.worms.Player;
 import org.wcscda.worms.Worm;
 import org.wcscda.worms.board.AbstractDrawableElement;
+import org.wcscda.worms.board.weapons.Grenade;
+import org.wcscda.worms.board.weapons.Hadoken;
+import org.wcscda.worms.board.weapons.Shotgun;
+import org.wcscda.worms.board.weapons.SuperGrenade;
 import org.wcscda.worms.gamemechanism.phases.WormMovingPhase;
 
 public class Inventory extends AbstractDrawableElement {
@@ -24,17 +28,26 @@ public class Inventory extends AbstractDrawableElement {
 
 	@Override
 	protected void drawMain(Graphics2D g, ImageObserver io) {
-		if (Helper.getActivePlayer().isInventory()) {
-			g.drawString("∞", (int) 1110, (int) 50);
-			g.drawString("∞", (int) 1110, (int) 100);
-			g.drawString("∞", (int) 1110, (int) 150);
-
-			g.drawImage(hadoken, (int) 1130, (int) 20, io);
-			g.drawImage(shotgun, (int) 1130, (int) 70, io);
-			g.drawImage(grenade, (int) 1130, (int) 120, io);
-			if(Helper.getActivePlayer().getSuperGrenadeAmmo()>0) {
-			g.drawImage(sainteGrenade, (int) 1130, (int) 170, io);
-			g.drawString(""+Helper.getActivePlayer().getSuperGrenadeAmmo(), (int) 1110, (int) 200);
+		
+		if (player.isInventory()) {
+			if(player.getCurrentWeapon() instanceof Hadoken) {
+				g.drawString(">>>>", (int) 1070, (int) 50);
+			}else if(player.getCurrentWeapon() instanceof Shotgun){
+				g.drawString(">>>>", (int) 1070, (int) 100);
+			}else if(player.getCurrentWeapon() instanceof Grenade){
+				g.drawString(">>>>", (int) 1070, (int) 150);
+			}else if(player.getCurrentWeapon() instanceof SuperGrenade){
+				g.drawString(">>>>", (int) 1070, (int) 200);
+			}
+			g.drawString("∞", (int) 1170, (int) 50);
+			g.drawString("∞", (int) 1170, (int) 100);
+			g.drawString("∞", (int) 1170, (int) 150);
+			g.drawImage(hadoken, (int) 1110, (int) 20, io);
+			g.drawImage(shotgun, (int) 1110, (int) 70, io);
+			g.drawImage(grenade, (int) 1110, (int) 120, io);
+			if(player.getSuperGrenadeAmmo()>0) {
+			g.drawImage(sainteGrenade, (int) 1110, (int) 170, io);
+			g.drawString(""+player.getSuperGrenadeAmmo(), (int) 1170, (int) 200);
 			}
 		}
 	}
