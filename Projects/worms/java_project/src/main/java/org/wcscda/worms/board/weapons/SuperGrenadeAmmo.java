@@ -2,9 +2,12 @@ package org.wcscda.worms.board.weapons;
 
 import org.wcscda.worms.Helper;
 import org.wcscda.worms.board.ARBEWithGravityAndHandler;
+import org.wcscda.worms.board.AbstractBoardElement;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.awt.image.ImageObserver;
 
 public class SuperGrenadeAmmo extends AbstractAmmo {
@@ -25,6 +28,7 @@ public class SuperGrenadeAmmo extends AbstractAmmo {
 	private static final Image[] SUPERGRENADE = new Image[8];
 	private final double initialX;
 	private final double initialY;
+	private int initTimer;
 
 	public SuperGrenadeAmmo(Double angle) {
 		super(EXPLOSION_RADIUS, EXPLOSION_DAMAGE);
@@ -40,6 +44,16 @@ public class SuperGrenadeAmmo extends AbstractAmmo {
 	private static void initImages() {
 		for (int i = 0; i < imagePath.length; i++) {
 			SUPERGRENADE[i] = new ImageIcon(imagePath[i]).getImage().getScaledInstance(30, 30, 0);
+		}
+	}
+	
+	@Override
+	public void colideWith(AbstractBoardElement movable, Point2D prevPosition) {
+		this.getMovable().setPosition(prevPosition);
+
+		if(initTimer + 100 <= Helper.getClock()) {
+		      super.colideWith(movable, prevPosition);
+			explode();
 		}
 	}
 	
