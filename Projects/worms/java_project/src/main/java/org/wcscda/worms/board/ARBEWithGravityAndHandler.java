@@ -70,12 +70,5 @@ public class ARBEWithGravityAndHandler extends ARBEWithGravity{
       movableHandler.colideWith(movable, prevPosition);
     }
 
-    @Override
-    public boolean isCollidingWith(Shape s) {
-      Boolean fromAdditionnal = movableHandler.isColidingWithAdditionnal(s);
-      if (fromAdditionnal != null) {
-        return fromAdditionnal;
-      }
-      return super.isCollidingWith(s);
-    }
+    
 }

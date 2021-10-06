@@ -15,9 +15,17 @@ import org.wcscda.worms.Player;
 import org.wcscda.worms.Worm;
 import org.wcscda.worms.gamemechanism.phases.AbstractPhase;
 import org.wcscda.worms.gamemechanism.phases.WormMovingPhase;
+import org.wcscda.worms.gamemechanism.playerrecorder.KeyboardControllerPlayer;
+import org.wcscda.worms.gamemechanism.playerrecorder.KeyboardControllerRecorder;
 
 public class TimeController implements ActionListener {
   private static TimeController instance;
+
+  public KeyboardController getKeyboardController() {
+    return keyboardController;
+  }
+
+  private final KeyboardController keyboardController;
   private PhysicalController board;
   private Timer timer;
   private ArrayList<Player> players = new ArrayList<Player>();
@@ -25,18 +33,33 @@ public class TimeController implements ActionListener {
   private AbstractPhase currentPhase;
   private int phaseCount = 0;
   private boolean delayedSetNextWorm;
+  private ScriptPlayer scriptPlayer;
 
-	public TimeController() {
-		instance = this;
-		initGame();
+  public ScriptPlayer getScriptPlayer() {
+    return scriptPlayer;
+  }
 
-		board.addKeyListener(new KeyboardController());
+  public TimeController() {
+    instance = this;
+    initGame();
+    keyboardController = createController();
+    board.addKeyListener(keyboardController);
 
-		timer = new Timer(Config.getClockDelay(), this);
-		timer.start();
-	}
+    timer = new Timer(Config.getClockDelay(), this);
+    timer.start();
+  }
 
-	private void initGame() {
+  private KeyboardController createController() {
+    if (Config.getRecordGame()) {
+      return new KeyboardControllerRecorder(this.board);
+    } else if (Config.getPlayRecord()) {
+      return new KeyboardControllerPlayer();
+    } else {
+      return new KeyboardController();
+    }
+  }
+
+  private void initGame() {
 		board = new PhysicalController();
 		createPlayersAndWorms();
 		isBeginer();
