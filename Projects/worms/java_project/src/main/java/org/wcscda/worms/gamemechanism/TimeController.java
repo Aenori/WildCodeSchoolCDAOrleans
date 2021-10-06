@@ -65,6 +65,7 @@ public class TimeController implements ActionListener {
 		isBeginer();
 		doSetNextWorm();
 		new Scores();
+		new Inventory();
 	}
 
 	public void createPlayersAndWorms() {

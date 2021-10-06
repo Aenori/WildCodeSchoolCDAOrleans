@@ -51,7 +51,7 @@ public class SuperGrenadeAmmo extends AbstractAmmo {
 	public void colideWith(AbstractBoardElement movable, Point2D prevPosition) {
 		this.getMovable().setPosition(prevPosition);
 
-		if(initTimer + 100 <= Helper.getClock()) {
+		if(initTimer + 70 <= Helper.getClock()) {
 		      super.colideWith(movable, prevPosition);
 		}
 	}

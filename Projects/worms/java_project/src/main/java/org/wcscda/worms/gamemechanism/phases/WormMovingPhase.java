@@ -38,10 +38,6 @@ public class WormMovingPhase extends AbstractPhase {
 		}
 
 		if (key.equals("Space")) {
-			if(Helper.getCurrentWeapon() instanceof SuperGrenade && Helper.getActivePlayer().getSuperGrenadeAmmo() == 0) {
-				Helper.getActivePlayer().changeWeapon();
-			    return;
-			}
 			if(Helper.getCurrentWeapon() instanceof SuperGrenade && Helper.getActivePlayer().getSuperGrenadeAmmo() > 0) {
 				Helper.getActivePlayer().setSuperGrenadeAmmo(Helper.getActivePlayer().getSuperGrenadeAmmo()-1);
 			}
@@ -50,6 +46,17 @@ public class WormMovingPhase extends AbstractPhase {
 
 		if (key.equals("W")) {
 			Helper.getActivePlayer().changeWeapon();
+			if(Helper.getCurrentWeapon() instanceof SuperGrenade && Helper.getActivePlayer().getSuperGrenadeAmmo() == 0) {
+				Helper.getActivePlayer().changeWeapon();
+				return;
+			}
+		}
+		if (key.equals("I")) {
+			if(Helper.getActivePlayer().isInventory()) {
+				Helper.getActivePlayer().setInventory(false);
+			}else {
+				Helper.getActivePlayer().setInventory(true);
+			}
 		}
 	}
 
