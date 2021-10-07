@@ -8,6 +8,7 @@ import org.wcscda.worms.Worm;
 import org.wcscda.worms.board.weapons.AbstractWeapon;
 import org.wcscda.worms.board.weapons.Hadoken;
 import org.wcscda.worms.board.weapons.SuperGrenade;
+import org.wcscda.worms.gamemechanism.sound.WormSoundPlayer;
 
 public class WormMovingPhase extends AbstractPhase {
 	private static final double WORM_STEP_SPEED = 3.0;
@@ -47,9 +48,10 @@ public class WormMovingPhase extends AbstractPhase {
 			}
 			Helper.getCurrentWeapon().fire();
 		}
-
 		if (key.equals("W")) {
 			Helper.getActivePlayer().changeWeapon();
+			WormSoundPlayer mysound = new WormSoundPlayer();
+			mysound.playSound("src/resources/sound/switchWeapon.wav");
 		}
 	}
 

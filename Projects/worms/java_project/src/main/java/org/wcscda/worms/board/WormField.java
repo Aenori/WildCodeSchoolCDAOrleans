@@ -7,6 +7,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Path2D;
 import java.awt.image.ImageObserver;
 import org.wcscda.worms.RandomGenerator;
+import org.wcscda.worms.gamemechanism.sound.WormSoundPlayer;
 
 public class WormField extends AbstractBoardElement {
   private Area frontier;
@@ -52,6 +53,7 @@ public class WormField extends AbstractBoardElement {
   public void drawMain(Graphics2D g, ImageObserver io) {
     g.setColor(Color.green);
     g.fill(frontier);
+   
   }
 
   public Area getFrontier() {

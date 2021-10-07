@@ -7,6 +7,7 @@ import org.wcscda.worms.board.weapons.Grenade;
 import org.wcscda.worms.board.weapons.Hadoken;
 import org.wcscda.worms.board.weapons.Shotgun;
 import org.wcscda.worms.board.weapons.SuperGrenade;
+import org.wcscda.worms.gamemechanism.sound.WormSoundPlayer;
 
 public class Player {
 	private final String name;
@@ -54,31 +55,34 @@ public class Player {
 
 	public void setNextWorm() {
 
-		if (worms.isEmpty()) return;
+		if (worms.isEmpty())
+			return;
 
-		if(worms.isEmpty()) return;
-
+		if (worms.isEmpty())
+			return;
 
 		currentWormIndex += 1;
 		currentWormIndex %= worms.size();
 	}
 
-	/* NRO 2021-09-30 : TODO-student make a better version of
-	 * this, this is just a temporary version :-)
-	 * This should call the inventory, and handle
+	/*
+	 * NRO 2021-09-30 : TODO-student make a better version of this, this is just a
+	 * temporary version :-) This should call the inventory, and handle
 	 */
 	public void changeWeapon() {
+
 		if (currentWeapon.isChangingWeaponDisabled()) {
 			return;
 		}
-
 		if (currentWeapon instanceof Hadoken) {
 			currentWeapon = new Shotgun();
-		} else if (currentWeapon instanceof Shotgun){
+		} else if (currentWeapon instanceof Shotgun) {
+
 			currentWeapon = new Grenade();
-		} else if (currentWeapon instanceof Grenade){
+		} else if (currentWeapon instanceof Grenade) {
+
 			currentWeapon = new SuperGrenade();
-		} else if (currentWeapon instanceof SuperGrenade){
+		} else if (currentWeapon instanceof SuperGrenade) {
 			currentWeapon = new Hadoken();
 		}
 	}
@@ -86,7 +90,6 @@ public class Player {
 	public void initWeapon() {
 		currentWeapon = new Hadoken();
 	}
-
 
 	public boolean isBeginer() {
 		return isBeginer;
@@ -96,10 +99,9 @@ public class Player {
 		this.isBeginer = isBeginer;
 	}
 
-	
-	  public boolean hasWorms() {
-		    return !getWorms().isEmpty();
-		  }
+	public boolean hasWorms() {
+		return !getWorms().isEmpty();
+	}
 
 	public int getSuperGrenadeAmmo() {
 		return superGrenadeAmmo;

@@ -9,6 +9,7 @@ import org.wcscda.worms.Helper;
 import org.wcscda.worms.Player;
 import org.wcscda.worms.Worm;
 import org.wcscda.worms.board.AbstractDrawableElement;
+import org.wcscda.worms.gamemechanism.sound.WormSoundPlayer;
 
 public class Scores extends AbstractDrawableElement {
 	int lifePlayer;
@@ -37,16 +38,15 @@ public class Scores extends AbstractDrawableElement {
 			g.setFont(font1);
 			g.setColor(Color.YELLOW);
 			p = p + 20;
-			
-			
+
 			for (int j = 0; j < worms.size(); j++) {
-				g.drawString("Player:"+players.get(i).getName() + " :", (int) x, (int) y );
-				//int lifeWorm = Helper.getTC().getPlayers().get(i).getWorms().get(j).getLife();
-				g.drawString("Life: " + worms.get(j).getLife(), (int) x + 70,
-						(int) y + ligne);
+				g.drawString("Player:" + players.get(i).getName() + " :", (int) x, (int) y);
+				// int lifeWorm =
+				// Helper.getTC().getPlayers().get(i).getWorms().get(j).getLife();
+				g.drawString("Life: " + worms.get(j).getLife(), (int) x + 70, (int) y + ligne);
 				ligne += 20;
 			}
-			
+
 			x += 140;
 			ligne = 20;
 
