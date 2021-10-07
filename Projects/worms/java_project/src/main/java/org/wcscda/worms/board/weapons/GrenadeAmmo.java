@@ -31,7 +31,7 @@ public class GrenadeAmmo extends AbstractAmmo {
 	private final double initialX;
 	private final double initialY;
 	private int initTimer;
-;
+
 
 	public GrenadeAmmo(Double angle) {
 		super(EXPLOSION_RADIUS, EXPLOSION_DAMAGE);

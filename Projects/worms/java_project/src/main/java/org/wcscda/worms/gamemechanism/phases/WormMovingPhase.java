@@ -41,6 +41,7 @@ public class WormMovingPhase extends AbstractPhase {
 			if(Helper.getCurrentWeapon() instanceof SuperGrenade && Helper.getActivePlayer().getSuperGrenadeAmmo() > 0) {
 				Helper.getActivePlayer().setSuperGrenadeAmmo(Helper.getActivePlayer().getSuperGrenadeAmmo()-1);
 			}
+			Helper.getActivePlayer().setInventory(false);
 			Helper.getCurrentWeapon().fire();
 		}
 

@@ -65,7 +65,6 @@ public class TimeController implements ActionListener {
 		isBeginer();
 		doSetNextWorm();
 		new Scores();
-		new Inventory();
 	}
 
 	public void createPlayersAndWorms() {
@@ -149,6 +148,8 @@ public class TimeController implements ActionListener {
     getActivePlayer().initWeapon();
 
     AbstractPhase phase = new WormMovingPhase();
+	new Inventory();
+	Helper.getActivePlayer().setInventory(true);
     this.setCurrentPhase(phase);
   }
 
