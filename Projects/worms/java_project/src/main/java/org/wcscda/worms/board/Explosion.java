@@ -71,11 +71,12 @@ public class Explosion extends AbstractDrawableElement {
     
     g.setColor(DrawHelper.getColorRGB(255, 255 - 255 * getLifeTime() / LIFE_DURATION, 0));
     g.fill(explosion);
+    musicSound("src/resources/sound/Explosion.wav");
    
     if (getLifeTime() == LIFE_DURATION) {
       removeSelf();
       
     }
-    musicSound("src/resources/sound/Explosion.wav");
+    
   }
 }

@@ -19,7 +19,7 @@ public class WavSoundPlayer implements ISoundPlayer {
     if (clip == null) return;
     clip.setFramePosition(0);
     clip.start();
-    clip.loop(10);
+    //clip.loop(1);
   }
 
   @Override
