@@ -28,7 +28,8 @@ public class GrenadeAmmo extends AbstractAmmo {
 	private static final Image[] grenade = new Image[8];
 	private final double initialX;
 	private final double initialY;
-	private int initTimer;;
+	private int initTimer;
+
 
 	public GrenadeAmmo(Double angle) {
 		super(EXPLOSION_RADIUS, EXPLOSION_DAMAGE);
@@ -51,9 +52,8 @@ public class GrenadeAmmo extends AbstractAmmo {
 	public void colideWith(AbstractBoardElement movable, Point2D prevPosition) {
 		this.getMovable().setPosition(prevPosition);
 
-		if (initTimer + 100 <= Helper.getClock()) {
-			super.colideWith(movable, prevPosition);
-			explode();
+		if(initTimer + 70 <= Helper.getClock()) {
+		      super.colideWith(movable, prevPosition);
 		}
 	}
 
@@ -67,8 +67,6 @@ public class GrenadeAmmo extends AbstractAmmo {
 
 	@Override
 	public void drawMain(Graphics2D g, ImageObserver io) {
-		System.out.println(initTimer + " " + Helper.getClock() + " " + super.getFiredPhase());
-
 		if (grenade[0] == null) {
 			initImages();
 		}

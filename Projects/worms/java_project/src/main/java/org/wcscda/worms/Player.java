@@ -17,6 +17,7 @@ public class Player {
 	private int currentWormIndex = 0;
 	private boolean isBeginer = false;
 	private int superGrenadeAmmo = 1;
+	private boolean inventory = true;
 
 	public Player(String name, Color color) {
 		this.name = name;
@@ -109,6 +110,14 @@ public class Player {
 
 	public void setSuperGrenadeAmmo(int superGrenadeAmmo) {
 		this.superGrenadeAmmo = superGrenadeAmmo;
+	}
+
+	public boolean isInventory() {
+		return inventory;
+	}
+
+	public void setInventory(boolean inventory) {
+		this.inventory = inventory;
 	}
 
 }

@@ -39,19 +39,27 @@ public class WormMovingPhase extends AbstractPhase {
 		}
 
 		if (key.equals("Space")) {
-			if(Helper.getCurrentWeapon() instanceof SuperGrenade && Helper.getActivePlayer().getSuperGrenadeAmmo() == 0) {
-				Helper.getActivePlayer().changeWeapon();
-			    return;
-			}
 			if(Helper.getCurrentWeapon() instanceof SuperGrenade && Helper.getActivePlayer().getSuperGrenadeAmmo() > 0) {
 				Helper.getActivePlayer().setSuperGrenadeAmmo(Helper.getActivePlayer().getSuperGrenadeAmmo()-1);
 			}
+			Helper.getActivePlayer().setInventory(false);
 			Helper.getCurrentWeapon().fire();
 		}
 		if (key.equals("W")) {
 			Helper.getActivePlayer().changeWeapon();
 			WormSoundPlayer mysound = new WormSoundPlayer();
 			mysound.playSound("src/resources/sound/switchWeapon.wav");
+			if(Helper.getCurrentWeapon() instanceof SuperGrenade && Helper.getActivePlayer().getSuperGrenadeAmmo() == 0) {
+				Helper.getActivePlayer().changeWeapon();
+				return;
+			}
+		}
+		if (key.equals("I")) {
+			if(Helper.getActivePlayer().isInventory()) {
+				Helper.getActivePlayer().setInventory(false);
+			}else {
+				Helper.getActivePlayer().setInventory(true);
+			}
 		}
 	}
 

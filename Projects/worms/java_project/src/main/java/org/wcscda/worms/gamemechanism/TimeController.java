@@ -71,8 +71,26 @@ public class TimeController implements ActionListener {
 
 	private void initGame() {
 		board = new PhysicalController();
-		createPlayersAndWorms();
-		isBeginer();
+//		createPlayersAndWorms();
+//		isBeginer();
+		
+		 Player Nico = createPlayer("Nico", Color.RED);
+		 Player Sylvain = createPlayer("Sylvain", Color.BLUE);
+		 Player Eleonore = createPlayer("Eleonore", Color.PINK);
+
+		    for (String name : new String[] {"Tintin", "Milou"}) {
+		      Worm worm = Nico.createWorm(name);
+		      board.wormInitialPlacement(worm);
+		    }
+		    for (String name : new String[] {"Yoda", "luke skywalker"}) {
+			      Worm worm = Sylvain.createWorm(name);
+			      board.wormInitialPlacement(worm);
+			    }
+		    for (String name : new String[] {"Trinity", "Cat Woman"}) {
+			      Worm worm = Eleonore.createWorm(name);
+			      board.wormInitialPlacement(worm);
+			    }
+		    Eleonore.setBeginer(true);
 		doSetNextWorm();
 		new Scores();
 		musicSound("src/resources/sound/wormInGame.wav");
@@ -111,139 +129,141 @@ public class TimeController implements ActionListener {
 	  }
 	
 
-	public void createPlayersAndWorms() {
-		// Création des equipes et des worms qui leur appartient
-		Map<String, String[]> playerAndWorms = new HashMap<>();
-		Scanner scan1 = new Scanner(System.in);
-		System.out.println("Nombre de joueur ? ");
-		int nbPlayer = scan1.nextInt();
-		Scanner scan2 = new Scanner(System.in);
-		System.out.println("Nombre de worms ? ");
-		int nbWorms = scan2.nextInt();
+//	public void createPlayersAndWorms() {
+//		//Création des equipes et des worms qui leur appartient
+//		Map<String, String[]> playerAndWorms = new HashMap<>();
+//		Scanner scan1 = new Scanner(System.in);
+//		System.out.println("Nombre de joueur ? ");
+//		int nbPlayer = scan1.nextInt();
+//		Scanner scan2 = new Scanner(System.in);
+//		System.out.println("Nombre de worms ? ");
+//		int nbWorms = scan2.nextInt();
+//
+//		for(int i = 0; i < nbPlayer; i++) {
+//			Scanner scan3 = new Scanner(System.in);
+//			System.out.println("Nom du joueur "+(i+1)+" : ");
+//			String namePlayer = scan3.nextLine();
+//			System.out.println("Le joueur "+(i+1)+" est "+namePlayer);
+//			playerAndWorms.put(namePlayer, new String[nbWorms]);
+//			for(int j = 0; j < nbWorms;j++) {
+//				Scanner scan4 = new Scanner(System.in);
+//				System.out.println("Nom du worms "+(1+j)+" : ");
+//				playerAndWorms.get(namePlayer)[j] = scan4.nextLine();
+//			}
+//		}
+//
+//
+//		Color color[] = {Color.RED, Color.blue, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.CYAN, Color.MAGENTA, Color.PINK};
+//
+//		//Color color[] = {Color.RED, Color.blue, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.CYAN};
+//
+//		int colorIndex = 0;
+//		for (Entry<String, String[]> player : playerAndWorms.entrySet()) {        //parcourir map [player] et ensuite [player][worms]
+//			String joueurMap = player.getKey();										//clef de la map
+//			String[] worms = player.getValue();										//tableau de valeur de la map
+//			Player joueur = createPlayer(joueurMap, color[colorIndex]);						//creation de l'equipe
+//			colorIndex++;
+//			for (String nomWorm : worms) {												// valeur des clefs de la map
+//				Worm worm = joueur.createWorm(nomWorm);								//ajout des worms
+//				board.wormInitialPlacement(worm);
+//			}
+//		}
+//	}
+//
+//
+//	public void isBeginer() {
+//		for (int i = 0; i < players.size(); i++) {
+//			Scanner scan1 = new Scanner(System.in);
+//			System.out.println("Le joueur "+players.get(i).getName()+" est il débutant ? (oui/non) : ");
+//			String beginer = scan1.nextLine();
+//			if(beginer.equals("oui")) {
+//				players.get(i).setBeginer(true);
+//			}
+//		}
+//	}
 
-		for (int i = 0; i < nbPlayer; i++) {
-			Scanner scan3 = new Scanner(System.in);
-			System.out.println("Nom du joueur " + (i + 1) + " : ");
-			String namePlayer = scan3.nextLine();
-			System.out.println("Le joueur " + (i + 1) + " est " + namePlayer);
-			playerAndWorms.put(namePlayer, new String[nbWorms]);
-			for (int j = 0; j < nbWorms; j++) {
-				Scanner scan4 = new Scanner(System.in);
-				System.out.println("Nom du worms " + (1 + j) + " : ");
-				playerAndWorms.get(namePlayer)[j] = scan4.nextLine();
-			}
-		}
 
-		Color color[] = { Color.RED, Color.blue, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.CYAN, Color.MAGENTA,
-				Color.PINK };
 
-		// Color color[] = {Color.RED, Color.blue, Color.ORANGE, Color.YELLOW,
-		// Color.GREEN, Color.CYAN};
+  public void setNextWorm() {
+    delayedSetNextWorm = true;
+  }
 
-		int colorIndex = 0;
-		for (Entry<String, String[]> player : playerAndWorms.entrySet()) { // parcourir map [player] et ensuite
-																			// [player][worms]
-			String joueurMap = player.getKey(); // clef de la map
-			String[] worms = player.getValue(); // tableau de valeur de la map
-			Player joueur = createPlayer(joueurMap, color[colorIndex]); // creation de l'equipe
-			colorIndex++;
-			for (String nomWorm : worms) { // valeur des clefs de la map
-				Worm worm = joueur.createWorm(nomWorm); // ajout des worms
-				board.wormInitialPlacement(worm);
-			}
-		}
-	}
+  protected void delayedActions() {
+    if (delayedSetNextWorm) {
+      delayedSetNextWorm = false;
+      doSetNextWorm();
+    }
+  }
 
-	public void isBeginer() {
-		for (int i = 0; i < players.size(); i++) {
-			Scanner scan1 = new Scanner(System.in);
-			System.out.println("Le joueur " + players.get(i).getName() + " est il débutant ? (oui/non) : ");
-			String beginer = scan1.nextLine();
-			if (beginer.equals("oui")) {
-				players.get(i).setBeginer(true);
-			}
-		}
-	}
+  protected void doSetNextWorm() {
+    for (int i = 0; i < players.size(); ++i) {
+      activePlayerIndex += 1;
+      activePlayerIndex %= players.size();
+      if (getActivePlayer().hasWorms()) break;
+    }
 
-	public void setNextWorm() {
-		delayedSetNextWorm = true;
-	}
+    // No player have any worm, it is sad ...
+    if (!getActivePlayer().hasWorms()) {
+      return;
+    }
 
-	protected void delayedActions() {
-		if (delayedSetNextWorm) {
-			delayedSetNextWorm = false;
-			doSetNextWorm();
-		}
-	}
+    getActivePlayer().setNextWorm();
+    getActivePlayer().initWeapon();
 
-	protected void doSetNextWorm() {
-		for (int i = 0; i < players.size(); ++i) {
-			activePlayerIndex += 1;
-			activePlayerIndex %= players.size();
-			if (getActivePlayer().hasWorms())
-				break;
-		}
+    AbstractPhase phase = new WormMovingPhase();
+	new Inventory();
+	Helper.getActivePlayer().setInventory(true);
+    this.setCurrentPhase(phase);
+  }
 
-		// No player have any worm, it is sad ...
-		if (!getActivePlayer().hasWorms()) {
-			return;
-		}
+  private Player createPlayer(String name, Color color) {
+    Player player = new Player(name, color);
+    players.add(player);
 
-		getActivePlayer().setNextWorm();
-		getActivePlayer().initWeapon();
+    return player;
+  }
 
-		AbstractPhase phase = new WormMovingPhase();
-		this.setCurrentPhase(phase);
-	}
+  public Component getBoard() {
+    return board;
+  }
 
-	private Player createPlayer(String name, Color color) {
-		Player player = new Player(name, color);
-		players.add(player);
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    phaseCount++;
+    board.actionPerformed(e);
+  }
 
-		return player;
-	}
+  public static TimeController getInstance() {
+    if (instance == null) {
+      instance = new TimeController();
+    }
+    return instance;
+  }
 
-	public Component getBoard() {
-		return board;
-	}
+  public AbstractPhase getCurrentPhase() {
+    return currentPhase;
+  }
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		phaseCount++;
-		board.actionPerformed(e);
-	}
+  public void setCurrentPhase(AbstractPhase currentPhase) {
+    if ((this.currentPhase != null) && this.currentPhase != currentPhase) {
+      this.currentPhase.removeSelf();
+    }
+    this.currentPhase = currentPhase;
+  }
 
-	public static TimeController getInstance() {
-		if (instance == null) {
-			instance = new TimeController();
-		}
-		return instance;
-	}
+  public ArrayList<Player> getPlayers() {
+    return players;
+  }
 
-	public AbstractPhase getCurrentPhase() {
-		return currentPhase;
-	}
+  public int getPhaseCount() {
+    return phaseCount;
+  }
 
-	public void setCurrentPhase(AbstractPhase currentPhase) {
-		if ((this.currentPhase != null) && this.currentPhase != currentPhase) {
-			this.currentPhase.removeSelf();
-		}
-		this.currentPhase = currentPhase;
-	}
+  public void setPhaseCount(int phaseCount) {
+    this.phaseCount = phaseCount;
+  }
 
-	public ArrayList<Player> getPlayers() {
-		return players;
-	}
-
-	public int getPhaseCount() {
-		return phaseCount;
-	}
-
-	public void setPhaseCount(int phaseCount) {
-		this.phaseCount = phaseCount;
-	}
-
-	public Player getActivePlayer() {
-		return players.get(activePlayerIndex);
-	}
+  public Player getActivePlayer() {
+    return players.get(activePlayerIndex);
+  }
 }
