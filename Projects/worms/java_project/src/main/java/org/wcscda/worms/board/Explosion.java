@@ -28,37 +28,8 @@ public class Explosion extends AbstractDrawableElement {
     this.createdPhase = Helper.getClock();
     
   }
-    HashMap<String, Clip> wavMapping = new HashMap<>();
-  public void musicSound(String filename) {
-	  
-	    if (!wavMapping.containsKey(filename)) {
-	      loadWav(filename);
-	    }
-
-	    Clip clip = wavMapping.get(filename);
-	    // loading didn't work properly
-	    if (clip == null) return;
-	    clip.setFramePosition(0);
-	    clip.start();
-	    clip.loop(0);
-	    
-	  }
-  private void loadWav(String filename) {
-		wavMapping.put(filename, tryLoadWav(filename));
-		
-	}
-	private Clip tryLoadWav(String filename) {
-	    try {
-	      AudioInputStream audioInputStream =
-	          AudioSystem.getAudioInputStream(new File(filename).getAbsoluteFile());
-	      Clip clip = AudioSystem.getClip();
-	      clip.open(audioInputStream);
-	      return clip;
-	    } catch (Exception e) {
-	      e.printStackTrace();
-	      return null;
-	    }
-	  }
+   
+	
   private int getLifeTime() {
     return Helper.getClock() - createdPhase;
   }
@@ -71,7 +42,7 @@ public class Explosion extends AbstractDrawableElement {
     
     g.setColor(DrawHelper.getColorRGB(255, 255 - 255 * getLifeTime() / LIFE_DURATION, 0));
     g.fill(explosion);
-    musicSound("src/resources/sound/Explosion.wav");
+  
    
     if (getLifeTime() == LIFE_DURATION) {
       removeSelf();

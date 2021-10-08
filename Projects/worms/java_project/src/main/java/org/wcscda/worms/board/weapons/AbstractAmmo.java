@@ -2,6 +2,13 @@ package org.wcscda.worms.board.weapons;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.File;
+import java.util.HashMap;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+
 import org.wcscda.worms.Helper;
 import org.wcscda.worms.board.*;
 import org.wcscda.worms.utils.MathHelper;
@@ -62,12 +69,44 @@ public abstract class AbstractAmmo implements IMovableHandler {
   protected int getFiredPhase() {
     return firedPhase;
   }
+//son explosion
+  HashMap<String, Clip> wavMapping = new HashMap<>();
+  public void musicSound(String filename) {
+	  
+	    if (!wavMapping.containsKey(filename)) {
+	      loadWav(filename);
+	    }
 
+	    Clip clip = wavMapping.get(filename);
+	    // loading didn't work properly
+	    if (clip == null) return;
+	    clip.setFramePosition(0);
+	    clip.start();
+	    clip.loop(0);
+	    
+	  }
+  private void loadWav(String filename) {
+		wavMapping.put(filename, tryLoadWav(filename));
+		
+	}
+  private Clip tryLoadWav(String filename) {
+	    try {
+	      AudioInputStream audioInputStream =
+	          AudioSystem.getAudioInputStream(new File(filename).getAbsoluteFile());
+	      Clip clip = AudioSystem.getClip();
+	      clip.open(audioInputStream);
+	      return clip;
+	    } catch (Exception e) {
+	      e.printStackTrace();
+	      return null;
+	    }
+	  }
 	@Override
 	public void colideWith(AbstractBoardElement movable, Point2D prevPosition) {
 		explode();
 
 		Helper.getCurrentWeapon().triggerAmmoExplosion();
+		  musicSound("src/resources/sound/Explosion.wav");
 	}
 
 	protected void explode() {
