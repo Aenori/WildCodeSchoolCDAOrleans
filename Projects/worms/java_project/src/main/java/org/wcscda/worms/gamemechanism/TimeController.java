@@ -61,64 +61,82 @@ public class TimeController implements ActionListener {
 
   private void initGame() {
 		board = new PhysicalController();
-		createPlayersAndWorms();
-		isBeginer();
+//		createPlayersAndWorms();
+//		isBeginer();
+		
+		 Player Nico = createPlayer("Nico", Color.RED);
+		 Player Sylvain = createPlayer("Sylvain", Color.BLUE);
+		 Player Eleonore = createPlayer("Eleonore", Color.PINK);
+
+		    for (String name : new String[] {"Tintin", "Milou"}) {
+		      Worm worm = Nico.createWorm(name);
+		      board.wormInitialPlacement(worm);
+		    }
+		    for (String name : new String[] {"Yoda", "luke skywalker"}) {
+			      Worm worm = Sylvain.createWorm(name);
+			      board.wormInitialPlacement(worm);
+			    }
+		    for (String name : new String[] {"Trinity", "Cat Woman"}) {
+			      Worm worm = Eleonore.createWorm(name);
+			      board.wormInitialPlacement(worm);
+			    }
+		    Eleonore.setBeginer(true);
 		doSetNextWorm();
 		new Scores();
 	}
 
-	public void createPlayersAndWorms() {
-		//Création des equipes et des worms qui leur appartient
-		Map<String, String[]> playerAndWorms = new HashMap<>();
-		Scanner scan1 = new Scanner(System.in);
-		System.out.println("Nombre de joueur ? ");
-		int nbPlayer = scan1.nextInt();
-		Scanner scan2 = new Scanner(System.in);
-		System.out.println("Nombre de worms ? ");
-		int nbWorms = scan2.nextInt();
-
-		for(int i = 0; i < nbPlayer; i++) {
-			Scanner scan3 = new Scanner(System.in);
-			System.out.println("Nom du joueur "+(i+1)+" : ");
-			String namePlayer = scan3.nextLine();
-			System.out.println("Le joueur "+(i+1)+" est "+namePlayer);
-			playerAndWorms.put(namePlayer, new String[nbWorms]);
-			for(int j = 0; j < nbWorms;j++) {
-				Scanner scan4 = new Scanner(System.in);
-				System.out.println("Nom du worms "+(1+j)+" : ");
-				playerAndWorms.get(namePlayer)[j] = scan4.nextLine();
-			}
-		}
-
-
-		Color color[] = {Color.RED, Color.blue, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.CYAN, Color.MAGENTA, Color.PINK};
-
-		//Color color[] = {Color.RED, Color.blue, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.CYAN};
-
-		int colorIndex = 0;
-		for (Entry<String, String[]> player : playerAndWorms.entrySet()) {        //parcourir map [player] et ensuite [player][worms]
-			String joueurMap = player.getKey();										//clef de la map
-			String[] worms = player.getValue();										//tableau de valeur de la map
-			Player joueur = createPlayer(joueurMap, color[colorIndex]);						//creation de l'equipe
-			colorIndex++;
-			for (String nomWorm : worms) {												// valeur des clefs de la map
-				Worm worm = joueur.createWorm(nomWorm);								//ajout des worms
-				board.wormInitialPlacement(worm);
-			}
-		}
-	}
-
-
-	public void isBeginer() {
-		for (int i = 0; i < players.size(); i++) {
-			Scanner scan1 = new Scanner(System.in);
-			System.out.println("Le joueur "+players.get(i).getName()+" est il débutant ? (oui/non) : ");
-			String beginer = scan1.nextLine();
-			if(beginer.equals("oui")) {
-				players.get(i).setBeginer(true);
-			}
-		}
-	}
+//	public void createPlayersAndWorms() {
+//		//Création des equipes et des worms qui leur appartient
+//		Map<String, String[]> playerAndWorms = new HashMap<>();
+//		Scanner scan1 = new Scanner(System.in);
+//		System.out.println("Nombre de joueur ? ");
+//		int nbPlayer = scan1.nextInt();
+//		Scanner scan2 = new Scanner(System.in);
+//		System.out.println("Nombre de worms ? ");
+//		int nbWorms = scan2.nextInt();
+//
+//		for(int i = 0; i < nbPlayer; i++) {
+//			Scanner scan3 = new Scanner(System.in);
+//			System.out.println("Nom du joueur "+(i+1)+" : ");
+//			String namePlayer = scan3.nextLine();
+//			System.out.println("Le joueur "+(i+1)+" est "+namePlayer);
+//			playerAndWorms.put(namePlayer, new String[nbWorms]);
+//			for(int j = 0; j < nbWorms;j++) {
+//				Scanner scan4 = new Scanner(System.in);
+//				System.out.println("Nom du worms "+(1+j)+" : ");
+//				playerAndWorms.get(namePlayer)[j] = scan4.nextLine();
+//			}
+//		}
+//
+//
+//		Color color[] = {Color.RED, Color.blue, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.CYAN, Color.MAGENTA, Color.PINK};
+//
+//		//Color color[] = {Color.RED, Color.blue, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.CYAN};
+//
+//		int colorIndex = 0;
+//		for (Entry<String, String[]> player : playerAndWorms.entrySet()) {        //parcourir map [player] et ensuite [player][worms]
+//			String joueurMap = player.getKey();										//clef de la map
+//			String[] worms = player.getValue();										//tableau de valeur de la map
+//			Player joueur = createPlayer(joueurMap, color[colorIndex]);						//creation de l'equipe
+//			colorIndex++;
+//			for (String nomWorm : worms) {												// valeur des clefs de la map
+//				Worm worm = joueur.createWorm(nomWorm);								//ajout des worms
+//				board.wormInitialPlacement(worm);
+//			}
+//		}
+//	}
+//
+//
+//	public void isBeginer() {
+//		for (int i = 0; i < players.size(); i++) {
+//			Scanner scan1 = new Scanner(System.in);
+//			System.out.println("Le joueur "+players.get(i).getName()+" est il débutant ? (oui/non) : ");
+//			String beginer = scan1.nextLine();
+//			if(beginer.equals("oui")) {
+//				players.get(i).setBeginer(true);
+//			}
+//		}
+//	}
 
 
   public void setNextWorm() {
