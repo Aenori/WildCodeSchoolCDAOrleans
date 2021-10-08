@@ -43,14 +43,14 @@ public class Scores extends AbstractDrawableElement {
 			int lifePlayer = 0;
 
 			for (int j = 0; j < worms.size(); j++) {
-				g.drawString("Player : "+players.get(i).getName(), (int) x, (int) y );
+				g.drawString("      "+players.get(i).getName(), (int) x, (int) y );
 				//int lifeWorm = Helper.getTC().getPlayers().get(i).getWorms().get(j).getLife();
-				g.drawString("Life: " + worms.get(j).getLife(), (int) x + 70,
+				g.drawString("  " + worms.get(j).getLife(), (int) x +20,
 						(int) y + ligne);
 				ligne += 20;
 				lifePlayer += worms.get(j).getLife();
 			}
-			g.drawString("Total : " + lifePlayer, (int) x + 70,
+			g.drawString("Total : " + lifePlayer, (int) x + 20,
 					(int) y + ligne);
 			x += 140;
 			ligne = 20;
