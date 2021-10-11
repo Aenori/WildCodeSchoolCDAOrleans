@@ -6,25 +6,33 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
-public class FixedSizeCollection implements Collection<Integer> {
+class FixedSizeCollection implements Collection<Integer> {
+    private int maxSize;
     private Integer[] array;
+    private int currentSize;
 
     public FixedSizeCollection(int maxSize) {
-
+        this.maxSize = maxSize;
+        array = new Integer[maxSize];
+        currentSize = 0;
     }
 
     @Override
     public int size() {
-        return 0;
+        return currentSize;
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return currentSize == 0;
     }
 
     @Override
     public boolean contains(Object o) {
+        for(Integer i: array) {
+            if(o.equals(i)) return true;
+        }
+
         return false;
     }
 
@@ -45,12 +53,37 @@ public class FixedSizeCollection implements Collection<Integer> {
 
     @Override
     public boolean add(Integer integer) {
-        return false;
+        if(currentSize == maxSize) {
+            return false;
+        }
+        else {
+            array[currentSize++] = integer;
+            return true;
+        }
     }
 
     @Override
     public boolean remove(Object o) {
-        return false;
+        if(o == null) return false;
+
+        boolean found = false;
+
+        for(int i = 0; i < currentSize; ++i) {
+            if (o.equals(array[i])) {
+                found = true;
+            }
+            if (found) {
+                if (i == currentSize - 1) {
+                    array[i] = null;
+                } else {
+                    array[i] = array[i + 1];
+                }
+            }
+        }
+
+        if(found) --currentSize;
+
+        return found;
     }
 
     @Override
