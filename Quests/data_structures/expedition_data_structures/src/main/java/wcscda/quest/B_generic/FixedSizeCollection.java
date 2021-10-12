@@ -20,7 +20,7 @@ public class FixedSizeCollection<T> implements Collection<T> {
 
     @Override
     public int size() {
-    	int n=0;
+       int n=0;
 		for (int i = 0; i < array.length; i++) {
     		if(array[i]==null) {
     			n=n+1;
@@ -36,7 +36,6 @@ public class FixedSizeCollection<T> implements Collection<T> {
     		return false;
     		
     	}  return true;
-    
     }
 
     @Override
@@ -111,7 +110,24 @@ public class FixedSizeCollection<T> implements Collection<T> {
 
     @Override
     public boolean removeAll(Collection<?> collection) {
-        return false;
+        int b = array.length;
+    	for(int i=0;i<b;i++) {
+    		if(o==array[i]) {
+    			
+    			//return true;
+    		while(i<b-1) {
+    				array[i]=array[i+1];
+    				i++;
+    				
+    			}
+    		array[i]=null;
+    				return true;
+    		}
+    		
+    		
+    	}
+
+		return false;
     }
 
     @Override

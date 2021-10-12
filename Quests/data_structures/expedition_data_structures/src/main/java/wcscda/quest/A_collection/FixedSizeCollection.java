@@ -1,12 +1,19 @@
 package wcscda.quest.A_collection;
 
+
 import wcscda.quest.Sentinel;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.Arrays;
+=======
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+>>>>>>> f4f859d94157a4afa15150d6b581dc1d02334449
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+
 
 
 
@@ -19,6 +26,7 @@ public class FixedSizeCollection implements Collection<Integer> {
     	this.maxSize = maxSize;
     	array = new Integer[maxSize];
     	maxSize=0;
+
     }
 
 	@Override
@@ -39,8 +47,7 @@ public class FixedSizeCollection implements Collection<Integer> {
     		return false;
     		
     	}  return true;
-    
-        
+
     }
 
     @Override
@@ -66,23 +73,27 @@ public class FixedSizeCollection implements Collection<Integer> {
     }
 
     @Override
-    public <T> T[] toArray(T[] ts) {
+    public <T1> T1[] toArray(T1[] t1s) {
         return null;
     }
 
     @Override
+
     public boolean add(Integer integer) {
+
     	if(currentSize == maxSize) {
             return false;
         }
         else {
+
             array[currentSize++] = integer;
             return true;
         }
     }
 
     @Override
-	public boolean remove(Object o) {
+
+    public boolean remove(Object o) {
     	int b = array.length;
     	for(int i=0;i<b;i++) {
     		if(o==array[i]) {
@@ -109,11 +120,6 @@ public class FixedSizeCollection implements Collection<Integer> {
     }
 
     @Override
-    public boolean addAll(Collection<? extends Integer> collection) {
-        return false;
-    }
-
-    @Override
     public boolean removeAll(Collection<?> collection) {
         return false;
     }
@@ -127,4 +133,10 @@ public class FixedSizeCollection implements Collection<Integer> {
     public void clear() {
 
     }
+
+	@Override
+	public boolean addAll(Collection<? extends Integer> c) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
