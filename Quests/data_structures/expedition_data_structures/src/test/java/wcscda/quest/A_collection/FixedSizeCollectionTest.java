@@ -27,7 +27,7 @@ public class FixedSizeCollectionTest {
 
     @Test
     public void isEmpty() {
-        for(int i = 0; i < 7.;++i) {
+        for(int i = 0; i < 7;++i) {
             assertEquals(i == 0, fixture.isEmpty());
             fixture.add(0);
         }

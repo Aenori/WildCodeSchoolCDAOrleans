@@ -19,16 +19,34 @@ public class FixedSizeCollection<T> implements Collection<T> {
 
     @Override
     public int size() {
-        return 0;
+    	int n=0;
+		for (int i = 0; i < array.length; i++) {
+    		if(array[i]==null) {
+    			n=n+1;
+    
+    		}
+    	}
+        return array.length-n;
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+    	if(size()>0) {
+    		return false;
+    		
+    	}  return true;
+    
     }
 
     @Override
     public boolean contains(Object o) {
+    	for(int i = 0; i < array.length; i++) {
+    		if(o==array[i]) {
+    			return true;
+    		};
+    		
+    	}
+    	
         return false;
     }
 
@@ -49,12 +67,35 @@ public class FixedSizeCollection<T> implements Collection<T> {
 
     @Override
     public boolean add(T t) {
-        return false;
+    	if(currentSize == maxSize) {
+            return false;
+        }
+        else {
+            array[currentSize++] = t;
+            return true;
+        }
     }
 
     @Override
     public boolean remove(Object o) {
-        return false;
+    	int b = array.length;
+    	for(int i=0;i<b;i++) {
+    		if(o==array[i]) {
+    			
+    			//return true;
+    		while(i<b-1) {
+    				array[i]=array[i+1];
+    				i++;
+    				
+    			}
+    		array[i]=null;
+    				return true;
+    		}
+    		
+    		
+    	}
+
+		return false;
     }
 
     @Override
