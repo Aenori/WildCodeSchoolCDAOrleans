@@ -110,24 +110,7 @@ public class FixedSizeCollection<T> implements Collection<T> {
 
     @Override
     public boolean removeAll(Collection<?> collection) {
-        int b = array.length;
-    	for(int i=0;i<b;i++) {
-    		if(o==array[i]) {
-    			
-    			//return true;
-    		while(i<b-1) {
-    				array[i]=array[i+1];
-    				i++;
-    				
-    			}
-    		array[i]=null;
-    				return true;
-    		}
-    		
-    		
-    	}
-
-		return false;
+    	return false;
     }
 
     @Override

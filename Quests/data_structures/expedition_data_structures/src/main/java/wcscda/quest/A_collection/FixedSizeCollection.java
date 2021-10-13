@@ -1,17 +1,7 @@
 package wcscda.quest.A_collection;
 
 
-import wcscda.quest.Sentinel;
-
-<<<<<<< HEAD
-import java.util.ArrayList;
-import java.util.Arrays;
-=======
-import java.lang.reflect.Array;
-import java.util.ArrayList;
->>>>>>> f4f859d94157a4afa15150d6b581dc1d02334449
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 
 
