@@ -34,10 +34,14 @@ public class PhysicalController extends Board implements IMovableVisitor {
     }
   }
 
+  // est ce que ça tiens sur qql choses, (vers ou terrain), si
+  // NRO 2021-10-05 : Not only, it is the getFirstStandingOn that is
+  //  doing that (Your code is a little bit outdeated), this one 
+  //  is also making the object accelerate if not standing on anything
   private void doGravity(ARBEWithGravity arbe) {
     if (getFirstStandingOn(arbe).isEmpty()) {
       arbe.setSpeedY(arbe.getSpeedY() + GRAVITY_ACCELERATION);
-    } else {
+    } else if (arbe.getSpeedY() > 0){
       // NRO 2021-10-01 : You might have to change that if you
       // want some rebounce effect
       arbe.setSpeedY(0);

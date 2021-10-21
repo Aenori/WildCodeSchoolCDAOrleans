@@ -12,7 +12,8 @@ public abstract class AbstractAmmo implements IMovableHandler {
   private final int firedPhase;
   private final int explosionRadius;
   private final int explosionDamage;
-
+/* Se eu uso a classe abaixo como um atributo, o que me permite de mudar o tipo do atributo.
+Eu nao poderia fazer isso se eu herdasse a classe. */
   private AbstractRectangularBoardElement movable;
   private boolean initialPositionSet = false;
 
@@ -21,6 +22,7 @@ public abstract class AbstractAmmo implements IMovableHandler {
 
     this.explosionDamage = explosionDamage;
     this.explosionRadius = explosionRadius;
+
   }
 
   public AbstractRectangularBoardElement getMovable() {
@@ -29,8 +31,11 @@ public abstract class AbstractAmmo implements IMovableHandler {
 
   // Override this method if you want to have another movement
   // behaviour
+  // Draw the moving rectangle when shooting
   protected void createMovableRect(int rectWidth, int rectHeight) {
-    this.movable = new ARBEWIthHandler(0, 0, rectWidth, rectHeight, this);
+
+   this.movable = new ARBEWIthHandler(0, 0, rectWidth, rectHeight, this);
+
   }
 
   /* Important ! must be called at the end of construction process */
@@ -56,6 +61,21 @@ public abstract class AbstractAmmo implements IMovableHandler {
     initialPositionSet = true;
   }
 
+  protected void setMovable(AbstractRectangularBoardElement movable) {
+    this.movable = movable;
+  }
+
+/*
+  @Override
+  public Boolean isColidingWithAdditionnal(Shape s) {
+    if ((s == Helper.getActiveWorm().getShape())
+            && Helper.getClock() <= firedPhase + FIRING_WORM_ANTICOLLISION) {
+      return false;
+    }
+    return null;
+  }
+*/
+
   protected int getFiredPhase() {
     return firedPhase;
   }
@@ -63,14 +83,17 @@ public abstract class AbstractAmmo implements IMovableHandler {
   @Override
   public void colideWith(AbstractBoardElement movable, Point2D prevPosition) {
     explode();
-
     Helper.getCurrentWeapon().triggerAmmoExplosion();
+
   }
 
   protected void explode() {
+
     this.movable.removeSelf();
     Helper.getPC()
         .generateExplosion(
+                /* GetCenter = bullet position after explosion */
             this.movable.getCenterX(), this.movable.getCenterY(), explosionRadius, explosionDamage);
+
   }
 }

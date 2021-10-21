@@ -1,5 +1,7 @@
 package org.wcscda.worms.gamemechanism.phases;
 
+import org.wcscda.worms.Helper;
+
 import java.awt.*;
 import java.awt.image.ImageObserver;
 
@@ -10,10 +12,13 @@ public class EndOfGamePhase extends AbstractPhase {
   }
 
   @Override
-  public void forwardKeyPressed(String key) {}
+  public void forwardKeyPressed(String key) {
+  }
 
   @Override
   protected void drawMain(Graphics2D g, ImageObserver io) {
     // By default do nothing, let's the other do something if needed
+    // Show the winner
+
   }
 }

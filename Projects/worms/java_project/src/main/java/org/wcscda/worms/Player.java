@@ -2,23 +2,32 @@ package org.wcscda.worms;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import org.wcscda.worms.board.weapons.AbstractWeapon;
-import org.wcscda.worms.board.weapons.Hadoken;
-import org.wcscda.worms.board.weapons.Shotgun;
+import java.util.List;
+
+import org.wcscda.worms.board.Inventory;
+import org.wcscda.worms.board.weapons.*;
+
 
 public class Player {
+
   private final String name;
   private final Color color;
   private final ArrayList<Worm> worms = new ArrayList<Worm>();
   private AbstractWeapon currentWeapon;
   private int currentWormIndex = 0;
+  // Create property beginner level
+  private boolean beginnerLevel;
+
 
   public Player(String name, Color color) {
     this.name = name;
     this.color = color;
+    this.beginnerLevel = false;
+
   }
 
-  public String getName() {
+
+    public String getName() {
     return name;
   }
 
@@ -63,16 +72,40 @@ public class Player {
     if (currentWeapon.isChangingWeaponDisabled()) {
       return;
     }
+    List<AbstractWeapon> weapons = new ArrayList<>();
+    weapons.add(new Shotgun());
+    weapons.add(new Hadoken());
+    weapons.add(new Grenade());
+    weapons.add(new SuperGrenade());
+    weapons.add(new GrenadeTimer());
 
-    if (currentWeapon instanceof Hadoken) {
-      currentWeapon = new Shotgun();
-    } else {
-      currentWeapon = new Hadoken();
+    for (int i = 0; i < weapons.size(); i++) {
+        if (currentWeapon.getClass() == (weapons.get(i).getClass())) {
+            currentWeapon = weapons.get(i + 1);
+             break;
+     } else if (currentWeapon.getClass() == weapons.get(weapons.size() - 1).getClass()) {
+      currentWeapon = weapons.get(0);
+      }
     }
+
+    // NRO 2021-10-05 NOT-NICE : This is not very good, obviously
+    //  you would prefer to have a Weapon array, and manage
+    //  the next with an index. But well, in that case you would
+    //  need to have an array of class, which is possible, but leave
+    //  it out for now ...
+
+  }
+
+  public boolean isBeginnerLevel() {
+    return beginnerLevel;
+  }
+
+  public void setBeginnerLevel(boolean beginnerLevel) {
+    this.beginnerLevel = beginnerLevel;
   }
 
   public void initWeapon() {
-    currentWeapon = new Hadoken();
+    currentWeapon = new Shotgun();
   }
 
   public boolean hasWorms() {
