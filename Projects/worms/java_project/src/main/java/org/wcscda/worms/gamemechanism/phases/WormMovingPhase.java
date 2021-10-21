@@ -36,11 +36,21 @@ public class WormMovingPhase extends AbstractPhase {
     }
 
     if (key.equals("Space")) {
+      Helper.getActiveWorm().setInventoryView(false);
       Helper.getCurrentWeapon().fire();
     }
 
     if (key.equals("W")) {
       Helper.getActivePlayer().changeWeapon();
+    }
+
+    if (key.equals("I")) {
+     // Worm.drawInventory(Graphics2D g, ImageObserver io);
+      if(Helper.getActiveWorm().isInventoryView()) {
+        Helper.getActiveWorm().setInventoryView(false);
+      } else {
+        Helper.getActiveWorm().setInventoryView(true);
+      }
     }
   }
 

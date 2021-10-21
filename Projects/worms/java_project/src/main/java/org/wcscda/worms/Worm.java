@@ -1,14 +1,18 @@
 package org.wcscda.worms;
 
-import java.awt.Graphics2D;
-import java.awt.Image;
+import java.awt.*;
+import java.awt.font.TextAttribute;
 import java.awt.geom.Point2D;
 import java.awt.image.ImageObserver;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.ImageIcon;
 import org.wcscda.worms.board.ARBEWithGravity;
 import org.wcscda.worms.board.AbstractBoardElement;
 import org.wcscda.worms.board.IMovableVisitor;
 import org.wcscda.worms.board.IVisitable;
+import org.wcscda.worms.board.weapons.*;
 import org.wcscda.worms.gamemechanism.Board;
 
 public class Worm extends ARBEWithGravity implements IVisitable {
@@ -26,6 +30,13 @@ public class Worm extends ARBEWithGravity implements IVisitable {
   private final String name;
   private final Player player;
   private boolean isUserMoving;
+
+
+  private boolean inventoryView = false;
+  private ArrayList<WeaponAndMunition> warmsInventory = new ArrayList<>();
+
+
+
 
   private static void initImages() {
     wormLF =
@@ -45,6 +56,7 @@ public class Worm extends ARBEWithGravity implements IVisitable {
 
     this.player = player;
     this.name = name;
+
   }
 
   private static int getRandomStartingX() {
@@ -57,24 +69,33 @@ public class Worm extends ARBEWithGravity implements IVisitable {
 
   @Override
   protected void drawMain(Graphics2D g, ImageObserver io) {
+    int x = 500;
+    int y = 100;
+
     if (wormLF == null) initImages();
     Image worm = isRightFacing() ? wormRF : wormLF;
 
     g.drawImage(worm, getX() - rectPadding, getY() - rectPadding, io);
-
-    // Drawing the life
+    Font font = new Font("helvetica", Font.PLAIN, 14);
+    g.setFont(font);
     g.setColor(player.getColor());
-    g.drawString("" + getShownLife(), (int) getX(), (int) getY() - 15);
+    g.drawString("" + getShownLife(), (int) getX(), (int) getY() - 17);
+    g.drawString("" + this.getName(), (int) getX() + 5, (int) getY() - 37);
+
+    if(inventoryView) {
+      for (WeaponAndMunition weapon : getWarmsInventory()) {
+        g.drawString("" + weapon.getWeapon().getName() + ": " + (weapon.getAmmoNumber() == null ?  "∞" : "" + weapon.getAmmoNumber()), x, y);
+        y += 15;
+      }
+    }
   }
 
   private int getShownLife() {
-
     if (life < shownLife) {
       shownLife--;
     } else if (life > shownLife) {
       shownLife++;
     }
-
     return this.shownLife;
   }
 
@@ -110,14 +131,27 @@ public class Worm extends ARBEWithGravity implements IVisitable {
 
   @Override
   public void takeDamage(int damage) {
-    life -= damage;
+
+    Helper.getActivePlayer();
+    if (Helper.getActivePlayer().isDebutant()) {
+      life -= damage * 1.25;
+    } else {
+      life -= damage;
+    }
+
     if (life <= 0) {
+      Player.isPlayerDie();
       die();
     }
   }
 
   public void die() {
+    System.out.println(Helper.getTC().getCurrentNbPlayer());
     removeSelf();
+  }
+
+  public int getLife() {
+    return life;
   }
 
   @Override
@@ -130,7 +164,30 @@ public class Worm extends ARBEWithGravity implements IVisitable {
     visitor.visit(this, prevPosition);
   }
 
-  public int getLife() {
-    return life;
+
+  public ArrayList<WeaponAndMunition> getWarmsInventory() {
+    return this.warmsInventory;
+  }
+
+  public void setWarmsInventory() {
+
+    ArrayList<WeaponAndMunition> warmsInventory = new ArrayList<>();
+
+    warmsInventory.add(new WeaponAndMunition(new Hadoken(), null));
+    warmsInventory.add(new WeaponAndMunition(new Grenade(), 4));
+    warmsInventory.add(new WeaponAndMunition(new Bomb(), 2));
+    warmsInventory.add(new WeaponAndMunition(new HolyGrenade(), 1));
+    warmsInventory.add(new WeaponAndMunition(new Shotgun(), 6));
+
+    this.warmsInventory = warmsInventory;
+  }
+
+  public boolean isInventoryView() {
+    return inventoryView;
+  }
+
+  public void setInventoryView(boolean inventoryView) {
+    this.inventoryView = inventoryView;
   }
 }
+

@@ -1,12 +1,19 @@
 package org.wcscda.worms.board;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Shape;
+import java.awt.*;
+import java.awt.font.TextAttribute;
 import java.awt.geom.Area;
 import java.awt.geom.Path2D;
 import java.awt.image.ImageObserver;
+import java.text.AttributedCharacterIterator;
+import java.util.Map;
+
+import org.wcscda.worms.Helper;
+import org.wcscda.worms.Player;
 import org.wcscda.worms.RandomGenerator;
+import org.wcscda.worms.gamemechanism.TimeController;
+
+import javax.swing.*;
 
 public class WormField extends AbstractBoardElement {
   private Area frontier;
@@ -15,6 +22,18 @@ public class WormField extends AbstractBoardElement {
 
   public WormField(int width, int height) {
     initRandomSpline(width, height);
+  }
+
+  private static final  String imagePath = "src/resources/weapons/victory.png";
+  private static Image image = null;
+
+  private static final  String drawImagePath = "src/resources/weapons/draw.png";
+  private static Image drawImage = null;
+
+
+  public static void playerVictory(Graphics2D g) {
+
+
   }
 
   private void initRandomSpline(int width, int height) {
@@ -48,10 +67,52 @@ public class WormField extends AbstractBoardElement {
     frontier = new Area(p);
   }
 
+  private static void initImages() {
+    image = new ImageIcon(imagePath).getImage().getScaledInstance(400, 600, 0);
+    drawImage = new ImageIcon(drawImagePath).getImage().getScaledInstance(700, 650, 0);
+  }
+
   @Override
   public void drawMain(Graphics2D g, ImageObserver io) {
+
     g.setColor(Color.green);
     g.fill(frontier);
+    int i = 15;
+    for ( Player player : Helper.getTC().getPlayers()) {
+      g.setColor(player.getColor());
+      Font font = new Font("helvetica", Font.PLAIN, 14);
+      g.setFont(font);
+      if (player.getPlayerLife() == 0) {
+        Map attributes = font.getAttributes();
+        attributes.put(TextAttribute.STRIKETHROUGH, TextAttribute.STRIKETHROUGH_ON);
+        Font newFont = new Font(attributes);
+        g.setFont(newFont);
+      }
+      g.drawString(player.getName() + " " + player.getPlayerLife(), 5, i);
+      i += 20;
+    }
+
+    if (Helper.getTC().getCurrentNbPlayer() == 1) {
+      for (Player player : Helper.getTC().getPlayers()) {
+        if (player.getPlayerLife() > 0) {
+          g.setColor(player.getColor());
+          g.setFont(new Font("TimesRoman", Font.PLAIN, 50));
+          g.drawString(player.getName() + " win!!!!", 500, 100);
+          if (image == null) {
+            initImages();
+          }
+          g.drawImage(image, 400, 150, io );
+          break;
+        }
+      }
+    } else if (Helper.getTC().getCurrentNbPlayer() == -1) {
+       g.setFont(new Font("TimesRoman", Font.PLAIN, 50));
+       g.drawString("Draw!!!", 500, 100);
+      if (drawImage == null) {
+        initImages();
+      }
+       g.drawImage(drawImage, 300, 150, io );
+    }
   }
 
   public Area getFrontier() {

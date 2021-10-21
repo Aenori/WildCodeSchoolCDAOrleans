@@ -15,7 +15,7 @@ public class WormTest extends TestCase {
   }
 
   public void testDie() {
-    Player player = new Player("Hector", Color.BLUE);
+    Player player = new Player("Hector", Color.BLUE, true);
     Worm worm = player.createWorm("Achille");
 
     assertTrue(player.getWorms().contains(worm));

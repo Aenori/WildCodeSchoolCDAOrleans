@@ -40,4 +40,6 @@ public abstract class Helper {
   public static AbstractWeapon getCurrentWeapon() {
     return getActivePlayer().getCurrentWeapon();
   }
-}
+
+  }
+

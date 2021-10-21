@@ -2,9 +2,9 @@ package org.wcscda.worms;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import org.wcscda.worms.board.weapons.AbstractWeapon;
-import org.wcscda.worms.board.weapons.Hadoken;
-import org.wcscda.worms.board.weapons.Shotgun;
+import java.util.Iterator;
+
+import org.wcscda.worms.board.weapons.*;
 
 public class Player {
   private final String name;
@@ -12,10 +12,18 @@ public class Player {
   private final ArrayList<Worm> worms = new ArrayList<Worm>();
   private AbstractWeapon currentWeapon;
   private int currentWormIndex = 0;
+  private boolean debutant = false;
 
-  public Player(String name, Color color) {
+
+  public Player(String name, Color color, Boolean debutant) {
     this.name = name;
     this.color = color;
+    this.debutant = debutant;
+  }
+
+
+  public boolean isDebutant() {
+    return this.debutant;
   }
 
   public String getName() {
@@ -25,7 +33,7 @@ public class Player {
   public Worm createWorm(String nom) {
     Worm worm = new Worm(this, nom);
     worms.add(worm);
-
+    worm.setWarmsInventory();
     return worm;
   }
 
@@ -60,22 +68,51 @@ public class Player {
    * This should call the inventory, and handle
    */
   public void changeWeapon() {
-    if (currentWeapon.isChangingWeaponDisabled()) {
-      return;
+
+    ArrayList<WeaponAndMunition> wormInventory = new ArrayList<>();
+
+    for (int i = 0; i < Helper.getActiveWorm().getWarmsInventory().size(); i++) {
+      if (Helper.getActiveWorm().getWarmsInventory().get(i).getAmmoNumber() == null || Helper.getActiveWorm().getWarmsInventory().get(i).getAmmoNumber() > 0) {
+        wormInventory.add(Helper.getActiveWorm().getWarmsInventory().get(i));
+      }
     }
 
-    if (currentWeapon instanceof Hadoken) {
-      currentWeapon = new Shotgun();
-    } else {
-      currentWeapon = new Hadoken();
+    for (int i = 0; i <= wormInventory.size(); i++) {
+      if (currentWeapon.equals(wormInventory.get(i).getWeapon())) {
+        if (i == wormInventory.size() - 1) {
+          i = 0;
+          currentWeapon = wormInventory.get(i).getWeapon();
+          break;
+        }
+        currentWeapon = wormInventory.get(i + 1).getWeapon();
+        break;
+      }
     }
+
   }
 
   public void initWeapon() {
-    currentWeapon = new Hadoken();
+    currentWeapon = Helper.getActiveWorm().getWarmsInventory().get(0).getWeapon();
+  }
+
+  public int getPlayerLife() {
+    int playerLife = 0;
+    for ( Worm worm : this.getWorms()) {
+      playerLife += worm.getLife();
+    }
+    return playerLife;
+  }
+
+  public static void isPlayerDie() {
+    for (Player player : Helper.getTC().getPlayers()) {
+      if (player.getPlayerLife() <= 0) {
+        Helper.getTC().setCurrentNbPlayer(Helper.getTC().getCurrentNbPlayer() - 1);
+      }
+    }
   }
 
   public boolean hasWorms() {
     return !getWorms().isEmpty();
   }
 }
+

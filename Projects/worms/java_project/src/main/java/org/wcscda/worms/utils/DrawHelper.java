@@ -1,6 +1,7 @@
 package org.wcscda.worms.utils;
 
 import java.awt.*;
+
 import java.awt.geom.Ellipse2D;
 
 public abstract class DrawHelper {
