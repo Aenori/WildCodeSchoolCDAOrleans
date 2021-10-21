@@ -20,8 +20,8 @@ public class Hadoken extends AbstractWeapon {
             2 * hadokenRadius,
             2 * hadokenRadius);
 
-    g.setColor(Color.BLUE);
-    g.setStroke(new BasicStroke(10));
+    g.setColor(Color.WHITE);
+    g.setStroke(new BasicStroke(1));
     g.draw(circle);
   }
 }
