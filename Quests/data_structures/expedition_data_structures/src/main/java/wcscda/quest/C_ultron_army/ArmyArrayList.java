@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ArmyArrayList implements UltronArmy {
+<<<<<<< HEAD
 	private ArrayList<Sentinel> sentinelArrayList = new ArrayList<>();
 	
 	@Override
@@ -40,4 +41,32 @@ public class ArmyArrayList implements UltronArmy {
 	public boolean contains(Sentinel sentinel) {
 		return sentinelArrayList.contains(sentinel);
 	}
+=======
+    private ArrayList<Sentinel> sentinelArrayList = new ArrayList<>();
+
+    @Override
+    public boolean add(Sentinel sentinel) {
+        return false;
+    }
+
+    @Override
+    public int size() {
+        return 0;
+    }
+
+    @Override
+    public Sentinel[] getPatrol(int patrolSize) {
+        return new Sentinel[0];
+    }
+
+    @Override
+    public void patrolReturn(Sentinel[] sentinels) {
+
+    }
+
+    @Override
+    public boolean contains(Sentinel sentinel) {
+        return sentinelArrayList.contains(sentinel);
+    }
+>>>>>>> aenori_main
 }

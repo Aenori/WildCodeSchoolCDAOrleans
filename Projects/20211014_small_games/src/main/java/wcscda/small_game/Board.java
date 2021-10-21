@@ -7,8 +7,13 @@ import java.awt.geom.Rectangle2D;
 import java.util.*;
 
 public class Board extends JPanel {
+<<<<<<< HEAD
   private static final int WIDTH = 600;
   private static final int HEIGHT = 600;
+=======
+  private static final int WIDTH = 1200;
+  private static final int HEIGHT = 800;
+>>>>>>> aenori_main
   private Drawable tempDrawable;
   private Set<Drawable> permanentDrawable = new HashSet<>();
 

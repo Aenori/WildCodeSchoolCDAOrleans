@@ -6,11 +6,16 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.ImageObserver;
 
+<<<<<<< HEAD
 import javax.swing.SwingUtilities;
 
 public class MouseController extends MouseAdapter {
     
 	private final Board board;
+=======
+public class MouseController extends MouseAdapter {
+    private final Board board;
+>>>>>>> aenori_main
 
     public MouseController(Board board) {
         this.board = board;
@@ -18,12 +23,16 @@ public class MouseController extends MouseAdapter {
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
+<<<<<<< HEAD
     	
+=======
+>>>>>>> aenori_main
         board.redraw(new Drawable(){
             @Override
             public void draw(Graphics2D g, ImageObserver io) {
                 int x = mouseEvent.getX();
                 int y = mouseEvent.getY();
+<<<<<<< HEAD
                 g.setColor(Color.WHITE);
                 
           
@@ -57,4 +66,18 @@ public class MouseController extends MouseAdapter {
     {
        
     }
+=======
+
+                g.setColor(Color.WHITE);
+                g.drawLine(x - 30, y - 30, x + 30, y +30);
+                g.drawLine(x + 30, y - 30, x - 30, y +30);
+            }
+        } );
+    }
+
+    /*@Override
+    public void mousePressed(MouseEvent mouseEvent) {
+
+    }*/
+>>>>>>> aenori_main
 }

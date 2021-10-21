@@ -19,7 +19,16 @@ public class KeyboardController extends KeyAdapter {
       board.redraw(new Drawable() {
         @Override
         public void draw(Graphics2D g, ImageObserver io) {
+<<<<<<< HEAD
           g.drawOval(10, 10, 10, 10);
+=======
+          g.drawString(
+                  "You have pressed " + KeyEvent.getKeyText(keyEvent.getKeyCode()),
+                          200,
+                          200
+                  );
+
+>>>>>>> aenori_main
         }
       });
     }
