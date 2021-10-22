@@ -8,17 +8,20 @@ import java.util.stream.Collectors;
 public class BStream {
     // Here is the code for counting the number of student studying java
     public static int countStudent(String[] subjects) {
-        return (int)Arrays.stream(subjects)
+        long result = Arrays.stream(subjects)
                 // The argument of filter is called a lambda
                 .filter(s -> s.toLowerCase().equals("java"))
                 .count();
+        return (int)result;
     }
 
     // Exercice 1 : Using that syntax, write a method that receive
     // an array of int corresponding at the age and return the
     // the number of persons of 18 or above
     public static int countLegalAge(Integer[] ages) {
-        return 0;
+        return (int)Arrays.stream(ages)
+                .filter(i -> i >= 18)
+                .count();
     }
 
     public static class Student {
@@ -26,6 +29,7 @@ public class BStream {
         public String name;
         public int age = 20;
         public ArrayList<String> subjects = new ArrayList<>();
+        public ArrayList<String> getSubject() { return subjects; }
     }
 
     // Exemple d'utilisation de map
@@ -40,6 +44,8 @@ public class BStream {
     // sujet à tous les étudiants
     // Sans utiliser de boucle for
     public static void addSubject(List<Student> students, String subject) {
-        // TODO
+        students.stream()
+                .map(Student::getSubject)
+                .forEach(s -> s.add(subject));
     }
 }
